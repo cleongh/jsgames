@@ -4,15 +4,24 @@ title: 'Lenguajes interpretados y dinámicos'
 
 # Lenguajes interpretados
 
+
+## Lenguajes compilados a código máquina
+
+![Funcionamiento (Ej. C++)](compilar.dot.svg)
+
+## Lenguajes compilados a código intermedio (bytecode)
+
+![Funcionamiento (Ej. C#, Java)](compilado-bytecode.dot.svg)
+
 ## Qué son lenguajes interpretados
 
 ---
 
-Los [lenguajes interpretados](https://en.wikipedia.org/wiki/Interpreted_language) son lenguajes diseñados para describir programas que **no** se ejecutan en el procesador, sino en otro programa
-
-Es decir, hay un programa que emula a un procesador: el **intérprete**
+Los [lenguajes interpretados](https://en.wikipedia.org/wiki/Interpreted_language) son lenguajes diseñados para describir programas que **no** se ejecutan en el procesador, sino en otro programa que emula a un procesador, llamado **intérprete**
 
 ![Esquema de lenguaje interpretado](interpretes.dot.svg){height=30%}
+
+
 
 
 ## Cómo funcionan
@@ -94,9 +103,9 @@ Los lenguajes de tipado dinámico, por el contrario, no tienen compiladores que 
 Así que la corrección será comprobado más tarde, *durante la ejecución*
 
 ```javascript
-function suma(x, y) { return x + y; } 
+function resta(x, y) { return x - y; } 
 
-suma(4, "juan"); // el intérprete no da error hasta que esto no se ejecuta
+resta(4, "juan"); // el intérprete no da error hasta que esto no se ejecuta
 ```
 
 
@@ -133,6 +142,9 @@ Casi todos los navegadores "modernos" tienen dentro una máquina virtual que eje
 
 Además, tienen un API llamado DOM (*Document Object Model*) que permite acceder a las partes del documento (por ejemplo, acceder a un párrafo o imagen de una página web)
 
+<!-- Prueba con el navegador para ver el acceso al DOM:
+document.getElementsByTagName("h2").forEach((item) => item.style.color = "red")
+ -->
 
 ## JavaScript en el mundo real
 
@@ -140,9 +152,9 @@ JavaScript hoy en día se usa para:
 
 - Videojuegos (Phaser)
 - IDEs (Construct, VSCode)
-- Gmail
-- Google Calendar
-- Facebook
+- Gmail, Calendar...
+- Herramientas online: [Bitsy](https://ledoux.itch.io/bitsy), [Piskel](https://www.piskelapp.com/p/create/sprite), [Chiptone](https://sfbgames.itch.io/chiptone), [Spritesheet Packer](https://www.codeandweb.com/free-sprite-sheet-packer)...
+- Facebook, Instagram
 - Scripting
 - *Servidores*
 
@@ -154,7 +166,7 @@ A lo largo del curso, escribiremos JavaScript que se ejecutará dentro del naveg
 
 Porque **el navegador tiene incluido un intérprete de Javascript**
 
-Pero hay muchos intérpretes que sea capaz de entender JavaScript, y **algunos no son parte de un navegador**
+Pero hay otros intérpretes que son capaces de interpretar JavaScript y **algunos no son parte de un navegador**
 
 ## Node.js
 
@@ -182,7 +194,7 @@ Esta máquina se llama [V8](https://en.wikipedia.org/wiki/V8_(JavaScript_engine)
 ```bash
 node script.js
 
-# Pues no, vale 6. 
+# Ejecuta el contenido de script.js
 ```
 
 ---

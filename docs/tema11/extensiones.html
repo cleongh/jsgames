@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="generator" content="pandoc">
-  <title>JavaScript como lenguaje de extensión</title>
+  <title>Uso de los lenguajes interpretados en el desarrollo de videojuegos</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
@@ -19,6 +19,7 @@
     pre > code.sourceCode { white-space: pre; position: relative; }
     pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
     pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
     code.sourceCode > span { color: inherit; text-decoration: inherit; }
     div.sourceCode { margin: 1em 0; }
     pre.sourceCode { margin: 0; }
@@ -88,7 +89,7 @@
     <div class="slides">
 
 <section id="title-slide">
-  <h1 class="title">JavaScript como lenguaje de extensión</h1>
+  <h1 class="title">Uso de los lenguajes interpretados en el desarrollo de videojuegos</h1>
 </section>
 
 <section>
@@ -98,12 +99,15 @@
 </section>
 <section id="qué-es-un-lenguaje-de-scripting" class="slide level2">
 <h2>¿Qué es un lenguaje de scripting?</h2>
-<p>Los lenguajes de scripting, normalmente interpretados, son lenguajes que son concebidos para ser usados como parte de una herramienta</p>
+<p>Los lenguajes de scripting, normalmente interpretados, son lenguajes que son concebidos para ser usados para ampliar la funcionalidad de una herramienta</p>
 </section>
 <section class="slide level2">
 
+<p>Algunos lenguajes de scripting se crearon como lenguajes de propósito general (como Python) pero la mayoría de ellos surgieron como extensiones de herramientas específicas (como Ink o Squirrel)</p>
+</section>
+<section id="javascript-como-lenguaje-de-scripting" class="slide level2">
+<h2>Javascript como lenguaje de scripting</h2>
 <p>JavaScript fue concebido como una forma de programar sobre el navegador web</p>
-<p>Algunos lenguajes de scripting se crearon como lenguajes de propósito general, como Python, pero la mayoría de ellos surgieron como extensiones de herramientas específicas</p>
 </section>
 <section id="ejemplo-firefox" class="slide level2">
 <h2>Ejemplo: Firefox</h2>
@@ -131,94 +135,71 @@
 
 <ul>
 <li>Hay que crear una API en C/C++ a la que invocar desde JavaScript</li>
-<li>Hay que crear las llamadas en JavaScript que invocan el API en C/C++</li>
+<li>Hay que conectar el código en JavaScript con la invocación de las funciones nativas de la API en C/C++</li>
 </ul>
 </section></section>
 <section>
-<section id="javascript-como-lenguaje-de-extensión" class="title-slide slide level1">
-<h1>JavaScript como lenguaje de extensión</h1>
+<section id="por-qué-se-usan-los-lenguajes-de-scripting" class="title-slide slide level1">
+<h1>¿Por qué se usan los lenguajes de scripting?</h1>
 
 </section>
 <section class="slide level2">
 
-<p>También JavaScript se usa como lenguaje de extensión de aplicaciones más allá de los navegadores</p>
-</section>
-<section id="usar-javascript-desde-c" class="slide level2">
-<h2>Usar JavaScript desde C++</h2>
+<p>Si aislamos el núcleo de la aplicación/motor y creamos una API de scripting conseguimos desarrollos más ágiles y en el que se pueden separar mejor los roles del equipo de desarrollo</p>
 </section>
 <section class="slide level2">
 
-<p>Como ya has podido deducir, se puede usar JavaScript desde un programa en C++</p>
-<p>Tanto <a href="https://github.com/v8/v8/wiki/Getting%20Started%20with%20Embedding">V8</a> como <a href="https://developer.mozilla.org/en-US/docs/Mozilla/Projects/SpiderMonkey/How_to_embed_the_JavaScript_engine">SpiderMonkey</a> pueden ser usados en una aplicación en C++</p>
+<ul>
+<li>El tiempo de iteración se reduce (no hay que recompilar ni enlazar con la aplicación/motor)</li>
+<li>No se necesita tener el código de la aplicación/motor para ampliarla</li>
+<li>Bien implementado, se pueden recargar los scripts nuevos sin parar la ejecución del programa (lo veremos con Tiled)</li>
+</ul>
 </section>
 <section class="slide level2">
 
-<p>Para hacerlo necesitamos el código fuente de V8 y compilarlo junto con nuestro programa. El código fuente podéis descargarlo aquí <a href="https://github.com/v8/v8/wiki/Checking%20out%20source">V8 Source Code</a></p>
-<p>Una vez compilado debemos incluir en nuestro programa las cabeceras:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="pp">#include </span><span class="im">&quot;include/libplatform/libplatform.h&quot;</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="pp">#include </span><span class="im">&quot;include/v8.h&quot;</span></span></code></pre></div>
+<p>Además:</p>
+<ul>
+<li>Solo necesitamos un editor de texto y no un compilador, por lo que, en algunos casos, reducimos costes de licencias.</li>
+<li>Los scripts se ejecutan en un sandbox que evita que un error de programación produzca un error catastrófico</li>
+<li>Añaden características que algunos lenguajes de alto nivel no tienen (como serialización)</li>
+</ul>
 </section>
 <section class="slide level2">
 
-<p>Y crear las estructuras necesarias para cargar el script a ejecutar desde C++ y ejecutarlo</p>
-<p>Conseguir que el código JavaScript ejecutado pueda manejar objetos de C++ o que C++ pueda manejar objetos de JavaScript es algo más complicado, pero posible</p>
-</section>
-<section id="scripting-con-javascript-en-tiled" class="slide level2">
-<h2>Scripting con JavaScript en Tiled</h2>
-</section>
-<section class="slide level2">
-
-<p>A partir de la versión 1.3, Tiled permite crear scripts con JavaScript</p>
-<!-- ---
-
-Para hacer scripting, ahora mismo hay que bajarse un *snapshot* de versión beta desde la [página de Tiled](https://thorbjorn.itch.io/tiled) -->
-</section>
-<section class="slide level2">
-
-<figure>
-<img data-src="abrir_consola_tiled.png" alt="Lo primero es abrir la consola" /><figcaption aria-hidden="true">Lo primero es abrir la consola</figcaption>
-</figure>
-</section>
-<section class="slide level2">
-
-<figure>
-<img data-src="consola_tiled.png" alt="Se abrirá la consola, en cuyo cuadro de texto de abajo podemos ejecutar JavaScript" /><figcaption aria-hidden="true">Se abrirá la consola, en cuyo cuadro de texto de abajo podemos ejecutar JavaScript</figcaption>
-</figure>
-</section>
-<section class="slide level2">
-
-<figure>
-<img data-src="js_tiled.png" alt="Cualquier expresión de JavaScript funciona" /><figcaption aria-hidden="true">Cualquier expresión de JavaScript funciona</figcaption>
-</figure>
-</section>
-<section class="slide level2">
-
-<p>Se puede pegar un script pequeño de JavaScript en la línea de comandos, o se pueden ejecutar aquellos que está en <a href="https://doc.mapeditor.org/en/latest/reference/scripting/#script-extensions">la carpeta <code>extensions</code></a></p>
-</section>
-<section class="slide level2">
-
-<p>Preguntar algo al usuario:</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode js"><code class="sourceCode javascript"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span>(tiled<span class="op">.</span><span class="fu">confirm</span>(<span class="st">&quot;¿Quieres borrar todo el mapa?&quot;</span><span class="op">,</span> <span class="st">&quot;Borrado total&quot;</span>)) {</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>    tiled<span class="op">.</span><span class="fu">alert</span>(<span class="st">&quot;¡Borrado!&quot;</span>)<span class="op">;</span></span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
-</section>
-<section class="slide level2">
-
-<p>Recorrer todo el mapa y cambiar una propiedad:</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode js"><code class="sourceCode javascript"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(<span class="kw">let</span> x <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> x <span class="op">&lt;</span> tiled<span class="op">.</span><span class="at">activeAsset</span><span class="op">.</span><span class="at">width</span><span class="op">;</span> x<span class="op">++</span>) {</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span>(<span class="kw">let</span> y <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> y <span class="op">&lt;</span> tiled<span class="op">.</span><span class="at">activeAsset</span><span class="op">.</span><span class="at">width</span><span class="op">;</span> y<span class="op">++</span>) {</span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>        tiled<span class="op">.</span><span class="at">activeAsset</span><span class="op">.</span><span class="at">currentLayer</span><span class="op">.</span><span class="fu">tileAt</span>(x<span class="op">,</span> y)<span class="op">.</span><span class="at">propiedad</span> <span class="op">=</span> valor<span class="op">;</span></span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>    }</span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
-</section>
-<section class="slide level2">
-
-<p>La <a href="https://doc.mapeditor.org/en/latest/reference/scripting/">API</a> del motor de JavaScript tiene detalles de cómo se puede hacer extensiones a Tiled con JavaScript</p>
+<p>Pero no todo son ventajas:</p>
+<ul>
+<li>El uso de los lenguajes de scripting hace que el juego/aplicación pueda tener un rendimiento menor (más lentos)</li>
+<li>Es complicado tener que diseñar la API que permita la integración del lenguaje de scripting en la aplicación/motor</li>
+<li>Ausencia de herramientas de soporte (resaltado de sintaxis, depurador…)</li>
+<li>Ausencia de detección de errores (se detectan en ejecución)</li>
+</ul>
 </section></section>
 <section>
 <section id="otros-lenguajes-de-scripting" class="title-slide slide level1">
 <h1>Otros lenguajes de scripting</h1>
 
+</section>
+<section class="slide level2">
+
+<p>Además de Javascript, existen</p>
+</section>
+<section id="lua" class="slide level2">
+<h2>Lua</h2>
+<p><a href="https://www.lua.org/">Lua</a> es uno de los lenguajes de scripting más usado en motores de juegos</p>
+<p>Es relativamente rápido y es muy fácil conectarlo con en motor en C/C++</p>
+</section>
+<section class="slide level2">
+
+<p>Lua fue expresamente diseñado para ser usado como lenguaje de scripting sobre otros lenguajes</p>
+<p>Hay una gran <a href="https://en.wikipedia.org/wiki/Category:Lua_%28programming_language%29-scripted_video_games">lista de juegos que han utilizado Lua como lenguaje de scripting</a></p>
+</section>
+<section class="slide level2">
+
+<p>Pero también se usa en aplicaciones</p>
+<ul>
+<li>El reproductor multimedia VLC <a href="ttps://forum.videolan.org/viewforum.php?f=29">utiliza Lua</a> para que los usuarios puedan crear sus propias extensiones</li>
+<li>OBS Studio permite ampliar la funcionalidad de la herramienta <a href="https://obsproject.com/docs/scripting.html">usando Lua y Python</a></li>
+</ul>
 </section>
 <section id="php" class="slide level2">
 <h2>PHP</h2>
@@ -241,36 +222,34 @@ Para hacer scripting, ahora mismo hay que bajarse un *snapshot* de versión beta
 </section>
 <section class="slide level2">
 
-<p>Actualmente el uso de Python se ha extendido enormemente, no sólo como lenguaje de propósito general, si no como lenguaje de <em>scripting de propósito general</em></p>
-<p>Es relativamente fácil usar Phyton en de una aplicación en otro lenguaje (típicamente C/C++) por lo que se ha usado como lenguaje de scripting en muchas aplicaciones</p>
+<p>Actualmente el uso de Python se ha extendido enormemente, no sólo como lenguaje de propósito general, sino como lenguaje de <em>scripting de propósito general</em></p>
+<p>Python es relativamente fácil de usar desde una aplicación escrita en otro lenguaje (típicamente C/C++) por lo que se ha usado como lenguaje de scripting en muchas aplicaciones</p>
 <p><a href="https://docs.python.org/3/extending/embedding.html">Python en una aplicación</a></p>
-</section>
-<section id="python-en-blender" class="slide level2">
-<h2>Python en Blender</h2>
-<p>Blender es una herramienta de código libre para crear y renderizar objetos 3D</p>
-<p>Blender utiliza Phyton como lenguaje de extensión de su herramienta. Con Python se pueden crear macros y extender la funcionalidad de Blender</p>
-<p><a href="https://docs.blender.org/manual/en/latest/advanced/scripting/introduction.html">Phyton en Blender</a></p>
-</section>
-<section class="slide level2">
+</section></section>
+<section>
+<section id="uso-de-los-lenguajes-de-scripting-en-videojuegos" class="title-slide slide level1">
+<h1>Uso de los lenguajes de scripting en videojuegos</h1>
 
-<p>Internamente Blender utiliza Phyton para crear su interfaz y algunas de sus herramientas internas</p>
-<p>Aunque Blender está escrito en C/C++ usa Phyton como lenguaje de scripting para facilitar la creación de macros y add-ons por parte de los usuarios</p>
 </section>
-<section id="lua" class="slide level2">
-<h2>Lua</h2>
-<p><a href="https://www.lua.org/">Lua</a> es uno de los lenguajes de scripting más usado en motores de juegos</p>
-<p>Es relativamente rápido, y es muy fácil conectarlo con en motor en C/C++</p>
-</section>
-<section class="slide level2">
+<section id="usos-principales" class="slide level2">
+<h2>Usos principales</h2>
+<ul>
+<li>Creación de contenidos de gameplay</li>
+<li>Creación de herramientas para el desarrollo de recursos</li>
+<li>Extender la funcionalidad de herramientas (que lo permitan)</li>
+<li>Automatización (lo veréis en los últimos cursos)</li>
+</ul>
+</section></section>
+<section>
+<section id="creación-de-contenidos-de-gameplay" class="title-slide slide level1">
+<h1>Creación de contenidos de gameplay</h1>
 
-<p>Lua fue expresamente diseñado para ser usado como lenguaje de scripting en otros lenguajes</p>
-<p>Hay una gran <a href="https://en.wikipedia.org/wiki/Category:Lua-scripted_video_games">lista de juegos que han utilizado Lua como lenguaje de scripting</a></p>
 </section>
-<section class="slide level2">
-
-<p>Pero también se usa en aplicaciones</p>
-<p>Por ejemplo, el reproductor multimedia VLC utiliza LUA para que los usuarios puedan crear sus propias extensiones</p>
-<p><a href="https://forum.videolan.org/viewforum.php?f=29">Scripts para VLC en Lua</a></p>
+<section id="lua-en-cryengine" class="slide level2">
+<h2>Lua en CryEngine</h2>
+<p>El motor <a href="https://en.wikipedia.org/wiki/List_of_CryEngine_games">CryEngine de Crytek</a> utiliza Lua como lenguaje de scripting</p>
+<p>Los programadores del engine pueden exponer funciones de sus clases creadas en C++ para que los programadores de scripting en Lua puedan usarlas</p>
+<p><a href="http://docs.cryengine.com/display/SDKDOC4/Lua+Scripting">Lua en CryEngine</a></p>
 </section>
 <section id="luabind" class="slide level2">
 <h2>Luabind</h2>
@@ -281,18 +260,240 @@ Para hacer scripting, ahora mismo hay que bajarse un *snapshot* de versión beta
 <li>Polimorfismo de los métodos de una clase base en C++ desde una clase derivada en Lua</li>
 </ul>
 </section>
-<section id="lua-en-cryengine" class="slide level2">
-<h2>Lua en CryEngine</h2>
-<p>El motor CryEngine de Crytek utiliza Lua como lenguaje de scripting</p>
-<p>Los programadores del engine pueden exponer funciones de sus clases creadas en C++ para que los programadores de scripting en Lua puedan usarlas</p>
-<p><a href="http://docs.cryengine.com/display/SDKDOC4/Lua+Scripting">Lua en CryEngine</a></p>
+<section id="c-en-unity" class="slide level2">
+<h2>C# en Unity</h2>
+<ul>
+<li>El núcleo de Unity está implementado en C/C++</li>
+<li>Los GameObjects y algunos componentes están implementados en ese mismo lenguaje</li>
+<li>Si queremos crear nuevos componentes (y, por tanto, nuevo contenido) entonces usamos C# como lenguaje de scripting</li>
+</ul>
+</section>
+<section class="slide level2">
+
+<ul>
+<li>Unity tiene un <em>wrapper</em> que permite la interconexión entre los scripts en C# y el núcleo en C++</li>
+<li>Los scripts son compilados usando los <em>scripting backends</em> Mono, .NET o IL2CPP e integrados en el ejecutable</li>
+</ul>
+</section>
+<section class="slide level2">
+
+<figure>
+<img data-src="il2cpp.png" alt="Infraestructura de IL2CPP" /><figcaption aria-hidden="true">Infraestructura de IL2CPP</figcaption>
+</figure>
+<p><small>Podéis conocer más sobre el scripting de Unity <a href="https://docs.unity3d.com/Manual/ScriptingSection.html">a través de su manual</a></small></p>
+</section>
+<section id="scripting-visual" class="slide level2">
+<h2>Scripting Visual</h2>
+<p>Algunos motores usan lenguajes de scripting visual para la creación de contenidos</p>
+<p>Los lenguajes visuales se suelen componer de bloques con parámetros y flechas que indican el flujo de ejecución</p>
+<p>La programación por bloques es más sencilla para no programadores</p>
+</section>
+<section id="bolt-en-unity" class="slide level2">
+<h2>Bolt en Unity</h2>
+<figure>
+<img data-src="bolt.png" alt="Bolt es el lenguaje de scripting visual para Unity" /><figcaption aria-hidden="true">Bolt es el lenguaje de scripting visual para Unity</figcaption>
+</figure>
+</section>
+<section id="blueprints-en-unreal" class="slide level2">
+<h2>Blueprints en Unreal</h2>
+<figure>
+<img data-src="blueprint.png" alt="En Unreal se usan blueprints (en lugar de C++) para hacer scripting visual" /><figcaption aria-hidden="true">En Unreal se usan blueprints (en lugar de C++) para hacer scripting visual</figcaption>
+</figure>
+</section>
+<section id="ink" class="slide level2">
+<h2>Ink</h2>
+<ul>
+<li>Lenguaje y herramientas para la creación de videojuegos narrativos</li>
+<li>Usado en <a href="https://www.youtube.com/channel/UCvnHxTnr-J3xYg0RaVJVMUQ">80 days</a> o <a href="https://www.youtube.com/channel/UCUhIQUAgCHdZtfD-pz1nGPQ">Sorcery!</a></li>
+<li><a href="https://www.inklestudios.com/ink/">Ink es de acceso libre</a> y tiene un editor llamado <a href="https://github.com/inkle/inky">Inky, desarrollado en Javascript</a></li>
+</ul>
+</section>
+<section class="slide level2">
+
+<figure>
+<img data-src="ink.png" alt="Ejemplo del lenguaje Ink" /><figcaption aria-hidden="true">Ejemplo del lenguaje Ink</figcaption>
+</figure>
+<p><small>Más detalles sobre el lenguaje <a href="https://www.youtube.com/watch?v=KYBf6Ko1I2k">en esta charla de la GDC</a></small></p>
+</section>
+<section id="squirrel" class="slide level2">
+<h2>Squirrel</h2>
+<ul>
+<li>Lenguaje imperativo similar a Lua</li>
+<li>Desarrollado por <a href="http://squirrel-lang.org/">Alberto Demichelis</a></li>
+<li>Usado en <a href="https://www.youtube.com/channel/UCE8i1bve9eHEc_yn63NIX7A">Left 4 Dead 2</a> y <a href="https://www.youtube.com/channel/UCn0PHntRGo_-S700MrnY-bg">Portal 2</a></li>
+</ul>
+</section>
+<section class="slide level2">
+
+<p>En <a href="https://developer.valvesoftware.com/wiki/L4D2_Vscripts">L4D2</a> se usa para:</p>
+<ul>
+<li>Añadir “inteligencia” e interacción a entidades del mundo</li>
+<li>Para crear mods de mapas y spawnear entidades</li>
+<li>Para modificar el comportamiento del <a href="https://steamcdn-a.akamaihd.net/apps/valve/2009/ai_systems_of_l4d_mike_booth.pdf">AI director, responsable de controlar la generación de hordas de infectados</a></li>
+</ul>
+</section></section>
+<section>
+<section id="creación-de-herramientas-para-el-desarrollo-de-recursos" class="title-slide slide level1">
+<h1>Creación de herramientas para el desarrollo de recursos</h1>
+
+</section>
+<section class="slide level2">
+
+<p>En la industria de videojuegos existen muchos roles: diseñadores, animadores, concept artists, músicos…</p>
+<p>No todos programan (ni se espera que lo hagan)</p>
+</section>
+<section class="slide level2">
+
+<p>Los programadores no solo desarrollan gameplay sino que se encargan de la implementación de herramientas que ayuden a que otros miembros del equipo puedan hacer su trabajo</p>
+<p>Muchas de estas herramientas se desarrollan usando lenguajes de scripting</p>
+</section>
+<section id="editor-de-sprites" class="slide level2">
+<h2>Editor de sprites</h2>
+<figure>
+<img data-src="piskel.png" style="width:50.0%" alt="Piskel" /><figcaption aria-hidden="true"><a href="https://www.piskelapp.com/p/create/sprite">Piskel</a></figcaption>
+</figure>
+<p><small>Desarrollado en JavaScript. Código disponible <a href="https://github.com/piskelapp/piskel">en este repositorio</a></small></p>
+</section>
+<section id="efectos-sonoros-y-música" class="slide level2">
+<h2>Efectos sonoros y música</h2>
+<figure>
+<img data-src="jsfxr.png" style="width:35.0%" alt="jsfxr" /><figcaption aria-hidden="true"><a href="https://sfxr.me/">jsfxr</a></figcaption>
+</figure>
+<p><small>Desarrollado en JavaScript. Código disponible <a href="https://github.com/chr15m/jsfxr">en este repositorio</a></small></p>
+</section>
+<section id="efectos-sonoros-y-música-1" class="slide level2">
+<h2>Efectos sonoros y música</h2>
+<figure>
+<img data-src="chiptone.png" style="width:65.0%" alt="Chiptone" /><figcaption aria-hidden="true"><a href="https://sfbgames.itch.io/chiptone">Chiptone</a></figcaption>
+</figure>
+</section>
+<section id="efectos-y-partículas" class="slide level2">
+<h2>Efectos y partículas</h2>
+<p>Configurar un emisor de partículas</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode js"><code class="sourceCode javascript"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>particles<span class="op">.</span><span class="fu">createEmitter</span>({</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>    <span class="dt">alpha</span><span class="op">:</span> { <span class="dt">start</span><span class="op">:</span> <span class="dv">1</span><span class="op">,</span> <span class="dt">end</span><span class="op">:</span> <span class="dv">0</span> }<span class="op">,</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>    <span class="dt">scale</span><span class="op">:</span> { <span class="dt">start</span><span class="op">:</span> <span class="fl">0.5</span><span class="op">,</span> <span class="dt">end</span><span class="op">:</span> <span class="fl">2.5</span> }<span class="op">,</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>    <span class="co">//tint: { start: 0xff945e, end: 0xff945e },</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>    <span class="dt">speed</span><span class="op">:</span> <span class="dv">20</span><span class="op">,</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>    <span class="dt">accelerationY</span><span class="op">:</span> <span class="op">-</span><span class="dv">300</span><span class="op">,</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>    <span class="dt">angle</span><span class="op">:</span> { <span class="dt">min</span><span class="op">:</span> <span class="op">-</span><span class="dv">85</span><span class="op">,</span> <span class="dt">max</span><span class="op">:</span> <span class="op">-</span><span class="dv">95</span> }<span class="op">,</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>    <span class="dt">rotate</span><span class="op">:</span> { <span class="dt">min</span><span class="op">:</span> <span class="op">-</span><span class="dv">180</span><span class="op">,</span> <span class="dt">max</span><span class="op">:</span> <span class="dv">180</span> }<span class="op">,</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>    <span class="dt">lifespan</span><span class="op">:</span> { <span class="dt">min</span><span class="op">:</span> <span class="dv">1000</span><span class="op">,</span> <span class="dt">max</span><span class="op">:</span> <span class="dv">1100</span> }<span class="op">,</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>    <span class="dt">blendMode</span><span class="op">:</span> <span class="st">&#39;ADD&#39;</span><span class="op">,</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>    <span class="dt">frequency</span><span class="op">:</span> <span class="dv">110</span><span class="op">,</span></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>    <span class="dt">maxParticles</span><span class="op">:</span> <span class="dv">10</span><span class="op">,</span></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>    <span class="dt">x</span><span class="op">:</span> <span class="dv">400</span><span class="op">,</span></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>    <span class="dt">y</span><span class="op">:</span> <span class="dv">300</span></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span></code></pre></div>
+<p><small>Se puede ver en funcionamiento <a href="https://phaser.io/examples/v3/view/game-objects/particle-emitter/fire-max-10-particles#">en esta página</a></small></p>
+</section>
+<section id="editor-de-efectos-y-partículas" class="slide level2">
+<h2>Editor de efectos y partículas</h2>
+<figure>
+<img data-src="https://raw.githubusercontent.com/koreezgames/phaser3-particle-editor/master/showcase.gif" alt="Editor de partículas para Phaser3" /><figcaption aria-hidden="true">Editor de partículas <a href="https://koreezgames.github.io/phaser3-particle-editor/">para Phaser3</a></figcaption>
+</figure>
+<p><small>Desarrollado en TypeScript. Código disponible <a href="https://github.com/koreezgames/phaser3-particle-editor">en este repositorio</a></small></p>
+</section>
+<section id="editor-de-efectos-y-partículas-1" class="slide level2">
+<h2>Editor de efectos y partículas</h2>
+<figure>
+<img data-src="revoltfx.png" style="width:50.0%" alt="Editor de partículas para Pixi" /><figcaption aria-hidden="true">Editor de partículas <a href="https://editor.revoltfx.electronauts.net/">para Pixi</a></figcaption>
+</figure>
+<p><small>Desarrollado en JavaScript. Código disponible <a href="https://github.com/bma73/revolt-fx">en este repositorio</a></small></p>
+</section>
+<section id="editores-de-mapas-específicos" class="slide level2">
+<h2>Editores de mapas específicos</h2>
+<figure>
+<img data-src="rpg.jpg" alt="Editor de mapas para RPG, con desarrollo para HTML5 y JS" /><figcaption aria-hidden="true"><a href="https://deepnight.net/tools/rpg-map/">Editor de mapas para RPG</a>, con desarrollo para HTML5 y JS</figcaption>
+</figure>
+</section></section>
+<section>
+<section id="extender-la-funcionalidad-de-herramientas" class="title-slide slide level1">
+<h1>Extender la funcionalidad de herramientas</h1>
+
+</section>
+<section class="slide level2">
+
+<p>Por último, vamos a ver que algunas de las herramientas usadas en el desarrollo de videojuegos pueden ser ampliadas y mejoradas para la realización de tareas específicas de nuestro equipo de desarrollo</p>
+</section>
+<section class="slide level2">
+
+<p>Como hemos visto anteriormente, estas herramientas han de estar diseñadas para proporcionar una API que permita extender la herramienta con un lenguaje de scripting</p>
+</section>
+<section id="extender-blender-con-python" class="slide level2">
+<h2>Extender Blender con Python</h2>
+<p><a href="https://www.blender.org/">Blender</a> es una herramienta de código libre para crear y renderizar objetos 3D</p>
+<p>Aunque Blender está escrito en C/C++ usa Python como lenguaje de scripting para facilitar la creación de macros y add-ons por parte de los usuarios</p>
+</section>
+<section class="slide level2">
+
+<p>Blender dispone de una <a href="https://docs.blender.org/manual/en/latest/advanced/scripting/introduction.html">API de scripting en Python</a></p>
+<p>Podéis ver un ejemplo para la <a href="https://www.youtube.com/watch?v=4KwPhQX63SQ">creación de una herramienta de texto en este vídeo</a></p>
+</section>
+<section class="slide level2">
+
+<figure>
+<img data-src="serpens.jpg" alt="Serpens" /><figcaption aria-hidden="true">Serpens</figcaption>
+</figure>
+</section>
+<section id="extender-krita-con-python" class="slide level2">
+<h2>Extender Krita con Python</h2>
+<figure>
+<img data-src="Krita.png" alt="Krita" /><figcaption aria-hidden="true">Krita</figcaption>
+</figure>
+</section>
+<section class="slide level2">
+
+<p>Krita <a href="https://invent.kde.org/graphics/krita">está implementada en C++</a>…</p>
+<p>…pero dispone de una <a href="https://docs.krita.org/en/user_manual/python_scripting/introduction_to_python_scripting.html">API de scripting en Python</a></p>
+</section>
+<section class="slide level2">
+
+<p>Por ejemplo, un <a href="https://github.com/EugenDueck/kritaSpritesheetManager/tree/master/spritesheetExporter">exportador de animaciones a spritesheets para Phaser</a></p>
+</section>
+<section id="extender-audacity-con-nyquist" class="slide level2">
+<h2>Extender Audacity con Nyquist</h2>
+<p><a href="https://audacity.es/">Audacity</a> es una herramienta de edición de audio <a href="https://github.com/audacity/audacity">de código abierto</a> implementada en C++</p>
+<p>Soporta distintos tipos de extensiones, muchas de ellas implementadas en C/C++, como LV2 o VST</p>
+</section>
+<section class="slide level2">
+
+<p>Pero también permite <a href="https://wiki.audacityteam.org/wiki/Nyquist_Documentation">crear extensiones usando Nyquist</a>, un lenguaje similar a LISP para la síntesis de audio</p>
+<p>Esto nos permite crear nuestros propios efectos para aplicarlos automáticamente al audio de nuestro videojuego</p>
+</section>
+<section class="slide level2">
+
+<p>Añadir ecos a una pista de audio</p>
+<pre><code>;nyquist plug-in
+;version 4
+;type process
+;name &quot;Delay...&quot;
+;control decay &quot;Decay amount&quot; int &quot;dB&quot; 6 0 24
+;control delay &quot;Delay time&quot; float &quot;seconds&quot; 0.5 0.0 5.0
+;control count &quot;Number of echos&quot; int &quot;times&quot; 5 1 30
+
+(defun delays (sig decay delay count)
+(if (= count 0)
+    (cue sig)
+    (sim (cue sig)
+         (loud decay (at delay (delays sig decay delay (- count 1)))))))
+
+(stretch-abs 1 (delays *track* (- 0 decay) delay count))</code></pre>
+</section>
+<section id="extender-el-editor-de-unity-con-c" class="slide level2">
+<h2>Extender el editor de Unity con C#</h2>
+<p>Lo veremos en un tema aparte</p>
+</section>
+<section id="extender-tiled-con-js" class="slide level2">
+<h2>Extender Tiled con JS</h2>
+<p>Lo veremos en un tema aparte</p>
 </section></section>
     </div>
   </div>
 
   <script src="../reveal.js/dist/reveal.js"></script>
 
-  // reveal.js plugins
+  <!-- reveal.js plugins -->
   <script src="../reveal.js/plugin/notes/notes.js"></script>
   <script src="../reveal.js/plugin/search/search.js"></script>
   <script src="../reveal.js/plugin/zoom/zoom.js"></script>
@@ -302,12 +503,145 @@ Para hacer scripting, ahora mismo hay que bajarse un *snapshot* de versión beta
       // Full list of configuration options available at:
       // https://revealjs.com/config/
       Reveal.initialize({
+        // Display controls in the bottom right corner
+        controls: true,
+
+        // Help the user learn the controls by providing hints, for example by
+        // bouncing the down arrow when they first encounter a vertical slide
+        controlsTutorial: true,
+
+        // Determines where controls appear, "edges" or "bottom-right"
+        controlsLayout: 'bottom-right',
+
+        // Visibility rule for backwards navigation arrows; "faded", "hidden"
+        // or "visible"
+        controlsBackArrows: 'faded',
+
         // Display a presentation progress bar
         progress: true,
+
         // Display the page number of the current slide
         slideNumber: true,
+
+        // 'all', 'print', or 'speaker'
+        showSlideNumber: 'all',
+
+        // Add the current slide number to the URL hash so that reloading the
+        // page/copying the URL will return you to the same slide
+        hash: true,
+
+        // Start with 1 for the hash rather than 0
+        hashOneBasedIndex: false,
+
+        // Flags if we should monitor the hash and change slides accordingly
+        respondToHashChanges: true,
+
         // Push each slide change to the browser history
         history: true,
+
+        // Enable keyboard shortcuts for navigation
+        keyboard: true,
+
+        // Enable the slide overview mode
+        overview: true,
+
+        // Disables the default reveal.js slide layout (scaling and centering)
+        // so that you can use custom CSS layout
+        disableLayout: false,
+
+        // Vertical centering of slides
+        center: true,
+
+        // Enables touch navigation on devices with touch input
+        touch: true,
+
+        // Loop the presentation
+        loop: false,
+
+        // Change the presentation direction to be RTL
+        rtl: false,
+
+        // see https://revealjs.com/vertical-slides/#navigation-mode
+        navigationMode: 'default',
+
+        // Randomizes the order of slides each time the presentation loads
+        shuffle: false,
+
+        // Turns fragments on and off globally
+        fragments: true,
+
+        // Flags whether to include the current fragment in the URL,
+        // so that reloading brings you to the same fragment position
+        fragmentInURL: true,
+
+        // Flags if the presentation is running in an embedded mode,
+        // i.e. contained within a limited portion of the screen
+        embedded: false,
+
+        // Flags if we should show a help overlay when the questionmark
+        // key is pressed
+        help: true,
+
+        // Flags if it should be possible to pause the presentation (blackout)
+        pause: true,
+
+        // Flags if speaker notes should be visible to all viewers
+        showNotes: false,
+
+        // Global override for autoplaying embedded media (null/true/false)
+        autoPlayMedia: null,
+
+        // Global override for preloading lazy-loaded iframes (null/true/false)
+        preloadIframes: null,
+
+        // Number of milliseconds between automatically proceeding to the
+        // next slide, disabled when set to 0, this value can be overwritten
+        // by using a data-autoslide attribute on your slides
+        autoSlide: 0,
+
+        // Stop auto-sliding after user input
+        autoSlideStoppable: true,
+
+        // Use this method for navigation when auto-sliding
+        autoSlideMethod: null,
+
+        // Specify the average time in seconds that you think you will spend
+        // presenting each slide. This is used to show a pacing timer in the
+        // speaker view
+        defaultTiming: null,
+
+        // Enable slide navigation via mouse wheel
+        mouseWheel: false,
+
+        // The display mode that will be used to show slides
+        display: 'block',
+
+        // Hide cursor if inactive
+        hideInactiveCursor: true,
+
+        // Time before the cursor is hidden (in ms)
+        hideCursorTime: 5000,
+
+        // Opens links in an iframe preview overlay
+        previewLinks: false,
+
+        // Transition style (none/fade/slide/convex/concave/zoom)
+        transition: 'slide',
+
+        // Transition speed (default/fast/slow)
+        transitionSpeed: 'default',
+
+        // Transition style for full page slide backgrounds
+        // (none/fade/slide/convex/concave/zoom)
+        backgroundTransition: 'fade',
+
+        // Number of slides away from the current that are visible
+        viewDistance: 3,
+
+        // Number of slides away from the current that are visible on mobile
+        // devices. It is advisable to set this to a lower number than
+        // viewDistance in order to save resources.
+        mobileViewDistance: 2,
 
         // reveal.js plugins
         plugins: [

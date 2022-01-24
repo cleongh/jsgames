@@ -8,23 +8,25 @@ title: Publicar proyecto en la web
 
 Hay que alojar el proyecto en un sitio web
 
-Todos, a través del [servicio de páginas públicas en GitHub](https://help.github.com/articles/configuring-a-publishing-source-for-github-pages/) podéis simplemente hacer un commit del proyecto y servir la URL
+Todos, a través del [servicio de páginas públicas en GitHub](https://docs.github.com/en/pages/getting-started-with-github-pages) podéis simplemente hacer un commit del proyecto y servir la URL
 
 ---
 
-Sólo tenéis que crear una rama `master` en un repositorio, y tener ahí el archivo `index.html` apropiado (los servidores web usan `index.html` por defecto)
+Alternativas:
 
-También podéis hacerlo desde la carpeta `docs` de `master` (tenéis que configurarlo en "Settings")
-
----
-
-Una ventaja de hacerlo desde `docs` es que, si el repositorio es privado, sólo se servirá/será público lo de esa carpeta
+1. Sólo tenéis que crear una rama `main` en un repositorio, y tener ahí el archivo `index.html` apropiado (los servidores web usan el documento `index.html` como el servido por defecto)
+2. Tener nuestra versión de producción en una carpeta `docs` de `main` (tenéis que configurarlo en "Settings")
+3. Tener nuestra versión de producción en una rama `gh-pages` (que podéis/deberíais crear como [orphan branch](https://jiafulow.github.io/blog/2020/07/09/create-gh-pages-branch-in-existing-repo/))
 
 ---
 
-Una ventaja de hacerlo desde `master` es que no hay que hacer nada más que desarrollar y hacer `push`, y servimos los mismos archivos de desarrollo
+Una ventaja de hacerlo desde `main` es que no hay que hacer nada más que desarrollar y hacer `push`, y servimos los mismos archivos de desarrollo
 
 En general *esto no es idóneo*, pero acelera y simplifica el proceso
+
+---
+
+Una ventaja de hacerlo desde `docs` o desde `gh-pages` es que, si el repositorio es privado, sólo se servirá/será público lo de esa carpeta
 
 ---
 
@@ -38,7 +40,7 @@ En general *esto no es idóneo*, pero acelera y simplifica el proceso
 
 Tened cuidado con los recursos:
 
-- Referenciadlos con rutas relativas a vuestros `.html` y `.js`: (`imgs/imagen.png`) en vez de `http://mi.ruta.cambiante/imgs/imagen.png`
+- Referenciadlos con **rutas relativas** a vuestros `.html` y `.js` (`imgs/imagen.png`), en vez de **rutas absolutas** (`http://mi.ruta.cambiante/imgs/imagen.png`)
 - Aseguraos de que están cargados antes de iniciar su uso
 - Aseguraos de que están siempre disponibles
 
@@ -50,7 +52,7 @@ El archivo `index.html` tiene que ser una página presentable y "bonita"
 
 ---
 
-Tiene que tener el título del proyecto, un resumen del GDD (una versión en HTML), enlaces pertinentes (como por ejemplo al código en `GitHub`), instrucciones, y cualquier cosa relevante
+Tiene que tener el título del proyecto, un resumen del GDD (una versión en HTML), enlaces pertinentes (como, por ejemplo, al código en `GitHub`), instrucciones y cualquier información adicional relevante
 
 ---
 
@@ -64,11 +66,28 @@ No tenéis que desarrollar con la máquina de GitHub, sino en local
 
 Hacer `push` para probar es lento y es una carga innecesaria
 
-Con `npx live-server` o similar podéis arrancar un servidor, e ir haciendo `push` cuando funcione
+---
+
+Siempre:
+
+- Abrir vuestro editor favorito con los archivos html y js
+- Arrancar un servidor con `npx live-server` o similar
+- Abrir el navegador con la URL del servidor local
+- Abrir las herramientas de desarrollo del navegador
 
 ---
 
-O, mejor, publicar sólo `docs` y copiar a esta carpeta sólo cuando haya material mejorado
+> Revisad los recursos del Campus:
+> 
+> - Depurar con Google Chrome
+> - Depurar JavaScript en el navegador
+
+---
+
+Cuando funcione:
+
+- Hacer `push` y publicar `main`
+- Publicar sólo carpeta `docs` o rama `gh-pages` y copiar a esta carpeta/rama sólo cuando haya material mejorado
 
 <!-- 
 # Makefiles

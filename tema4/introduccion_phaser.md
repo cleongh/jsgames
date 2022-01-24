@@ -15,7 +15,7 @@ Tiene una apasionada comunidad en el proceso de desarrollo, por lo que crece rá
 
 El objeto principal de Phaser es un objeto JavaScript llamado `Game`{.js}
 
-Dentro de un *juego* hay *escenas*, y dentro de *escenas*, *objetos* (que son los que darán lógica y representación al juego)
+Dentro de un *juego* (`Game`{.js}) hay *escenas* (`Scene`{.js}), y dentro de *escenas*, *objetos* (`GameObject`{.js}), que son los que darán lógica y representación al juego 
 
 
 ## Escenas en Phaser
@@ -46,6 +46,7 @@ El orden de las escenas es importante, ya que el *scene manager* las actualiza y
 
 El motor llama a estos métodos automáticamente:
 
+- `init`{.js}: se ejecuta cuando se carga la escena. Aquí se pueden pasar datos entre escenas.
 - `preload`{.js}: aquí hay que cargar los recursos antes de que sean usados.
 - `create`{.js}: una vez que la clase está instanciada y el motor está a punto, se llama a este método para inicializar.
 - `update(time, delta)`{.js}: se llama cada ciclo de juego, para modificar el estado.
@@ -54,7 +55,7 @@ El motor llama a estos métodos automáticamente:
 ---
 
 
-Además, Phaser proporciona una serie de propiedades que podemos utilizar en nuestro juego, mayoritariamente, estas propiedades son formas de acceder a los subsistemas de Phaser
+Además, Phaser proporciona una serie de propiedades que podemos utilizar en nuestro juego. Mayoritariamente, estas propiedades son formas de acceder a los subsistemas de Phaser
 
 ---
 
@@ -70,6 +71,16 @@ Accesibles desde el objeto `Scene`{.js} con `scene.add`{.js}, `scene.load`{.js}.
 - `scene`{.js}: el SceneManager
 - `time`{.js}: el manager de tiempo
 - `physics`{.js}: el sistema de físicas
+
+---
+
+## Utilidades matemáticas
+
+[`Phaser.Math`{.js}](https://newdocs.phaser.io/docs/3.55.2/Phaser.Math) contiene métodos que ayudan a realizar ciertas operaciones matemáticas típicas de un motor de videojuegos
+
+Además, tiene un [generador de números aleatorios](https://newdocs.phaser.io/docs/3.55.2/Phaser.Math.RandomDataGenerator) muy útil, accesible a través de `Phaser.Math.RND`{.js}
+
+
 
 
 
@@ -89,6 +100,8 @@ new Phaser.Game({
 ```
 
 Esto crea un `<canvas>`{.html} al final de la página
+
+<small>En realidad, podemos crearlo [de una manera más sencilla](https://codepen.io/gjimenezucm/pen/bGRPRYz)</small>
 
 ---
 
@@ -119,7 +132,7 @@ Si queremos que el `<canvas>`{.html} tenga el foco, lo hacemos con [`focus()`{.j
 ---
   
 
-## Ejemplo básico de un juego con Phaser
+<!-- ## Ejemplo básico de un juego con Phaser
 
 
 <https://cleongh.github.io/phasertemplate/>
@@ -127,16 +140,24 @@ Si queremos que el `<canvas>`{.html} tenga el foco, lo hacemos con [`focus()`{.j
 <small>Código en <https://github.com/cleongh/phasertemplate></small>
 
 
----
+--- -->
 
 
 ## Un juego sencillo (y explicado) con Phaser
 
 
-<https://cleongh.github.io/simplephasergame/>
+<https://gjimenezucm.github.io/simplephasergame/>
 
-<small>Código en <https://github.com/cleongh/simplephasergame></small>
+<small>Código en <https://github.com/gjimenezUCM/simplephasergame></small>
 
+---
+
+## Documentación
+
+- [Documentación de Phaser 3](https://photonstorm.github.io/phaser3-docs/index.html): Acceder desde la barra de menú en la parte superior
+- [Nuevo sistema de documentación de Phaser](https://newdocs.phaser.io/docs/3.55.2/): Similar al anterior (en Beta)
+- [Ejemplos de Phaser 3](https://phaser.io/examples/v3)
+- [Notes of Phaser 3](https://rexrainbow.github.io/phaser3-rex-notes/docs/site/index.html)
 
 
 
@@ -173,9 +194,13 @@ La parte de antes de `:` es el *protocolo* (`http`, `ftp`...)
 
 ## URLs relativas
 
-El directorio especial `../` indica el directorio padre del que se lanzó la aplicación. El directorio `./` indica el directorio de lanzamiento de la aplicación
-
 En una web, `/` es la raíz del sitio
+
+El directorio especial `../` indica el directorio padre al del fichero actual.
+
+El directorio `./` indica el directorio del fichero actual
+
+
 
 - `./ejemplo/ruta`
 - `../otro_hijo/ruta/musica.ogg`
@@ -214,9 +239,12 @@ En el caso anterior, no puedo ir a una URL `'../anterior.png'`{.js} que esté en
 Se le añade una _key_ (clave o nombre) al recurso para poder identificarlo
 
 ```js
+// this es un objeto Scene
 function preload() {
-    this.load.image('phaser', 'sprites/phaser-dude.png');
-    this.load.image('platform', 'sprites/platform.png');
+    // Para cargar desde el sitio de Phaser
+    this.load.setBaseURL("https://examples.phaser.io/");
+    this.load.image('player', 'assets/sprites/phaser-dude.png');
+    this.load.image('platform', 'assets/sprites/platform.png');
 }
 ```
 
@@ -225,15 +253,17 @@ function preload() {
 
 Podemos cargar diferentes recursos como: imágenes, archivos JSON, atlas de texturas, video, sonido, tilemaps...
 
+Las rutas son _relativas_ al `index.html` (aunque se pueden modificar con los métodos [`setPath`](https://newdocs.phaser.io/docs/3.55.1/Phaser.Loader.LoaderPlugin#setPath) y [`setBaseUrl`](https://newdocs.phaser.io/docs/3.55.1/Phaser.Loader.LoaderPlugin#setBaseURL) del subsistema de carga de recursos)
 
+---
 
-# Liberación de recursos
+## Liberación de recursos
 
 ---
 
 Si cambiamos de escena y la desactivamos, es muy probable que haya recursos que ya no utilizaremos nunca
 
-En este caso podemos eliminarlos de la caché
+En este caso podemos eliminarlos de la [caché de `Game`](https://newdocs.phaser.io/docs/3.55.1/Phaser.Game#cache)
 
 ```js
 image1.destroy();
@@ -250,12 +280,13 @@ Hay que indicar que `cache` es una propiedad del objeto juego. -->
 Son las imágenes 2D que sirven para visualizar los objetos en un juego 2D.  En Phaser se instancian así:
 
 ```js
-player = scene.add.sprite(100, 200, 'player');
+// this es una Scene
+player = this.add.sprite(100, 200, 'player');
 ```
 
 ---
 
-![`player`{.js}](mariosprite.jpg){height=75%}
+![`player`{.js}](https://examples.phaser.io/assets/sprites/phaser-dude.png){width=10%}
 
 Hay que usar la clave que se le puso en la carga. El objeto, obviamente, *debe estar cargado memoria* con `scene.load`{.js}
 
@@ -278,20 +309,26 @@ Sirve también para crear animaciones por frames
 
 
 ```js
+// this es un objeto scene
 function preload() {
-    this.load.spritesheet(
-      'keyspritesheet', 'keyspritesheet.png', { frameWidth: 64, frameHeight: 64 });
+    // Recordad: solo para cargar desde el sitio de Phaser
+    this.load.setBaseURL("https://examples.phaser.io/");
+    this.load.spritesheet('mummy_spritesheet', 
+                          'assets/sprites/metalslug_mummy37x45.png',
+                          { frameWidth: 37, frameHeight: 45, endFrame: 17 });
 }
 
 function create() {
-    this.add.sprite(300, 200, 'keyspritesheet');
+    let mummy = this.add.sprite(300, 200, 'mummy_spritesheet');
 
-    this.scene.anims.create({
-      key: 'standing_sprite',
-      frames: this.scene.anims.generateFrameNumbers('keyspritesheet', { start: 0, end: 4 }),
-      frameRate: 2,
+    this.anims.create({
+      key: 'walking',
+      frames: this.anims.generateFrameNumbers('mummy_spritesheet', { start: 0, end: 16 }),
+      frameRate: 10,
       repeat: -1
     });
+
+    mummy.play('walking');
 }
 ```
 

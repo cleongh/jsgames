@@ -2,7 +2,11 @@
 title: Módulos
 ---
 
+# ¿Qué son los módulos?
 
+---
+
+Un mecanismo para dividir un programa grande en elementos más pequeños que podamos ir importando solo cuando lo necesitemos.
 
 # ¿Por qué usar módulos?
 
@@ -49,6 +53,33 @@ Cuando la programación web empezó a ser relevante, se hizo necesario crear un 
 Era necesario usar `node.js` para transformar archivos con módulos **en un solo archivo** JavaScript
 
 ---
+
+## [Patrón Módulo](https://addyosmani.com/resources/essentialjsdesignpatterns/book/#modulepatternjavascript)
+
+Era la forma en la que se implementaban inicialmente los módulos
+
+Hacen uso de los cierres (_closures_) para decidir qué publica el módulo
+
+---
+
+Observa que la función se ejecuta inmediatamente ([IIFE](https://developer.mozilla.org/es/docs/Glossary/IIFE))
+
+```js
+var testModule = (function () {
+  var counter = 0; 
+  return { 
+    incrementCounter: function () {
+      return counter++;
+    }, 
+    resetCounter: function () {
+      console.log( "counter value prior to reset: " + counter );
+      counter = 0;
+    }
+  }; 
+})();
+
+testModule.incrementCounter();
+``` 
 
 ## CommonJS
 
@@ -248,6 +279,12 @@ Cuando se usan módulos ES6 en HTML, hace falta añadir el atributo `type="modul
   document.game = new Game();
 </script>
 ```
+ó 
+
+```html
+<script type="module" src="myGame.js"></script> 
+<!--  Si myGame.js hace uso de los import y export-->
+```
 
 
 ---
@@ -255,6 +292,8 @@ Cuando se usan módulos ES6 en HTML, hace falta añadir el atributo `type="modul
 Los módulos se diferencian de un "script" normal, además (y entre otras cosas), en:
 
 
-- Las variables son locales a módulo
+- Las variables son locales al módulo
 - Usan `"strict"`{.js} por defecto
 - Se cargan de forma *asíncrona* (¡más velocidad!)
+
+

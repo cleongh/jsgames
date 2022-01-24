@@ -45,13 +45,13 @@
 <p>Qué es un lenguaje interpretado</p>
 <p>Ventajas e inconvenientes sobre los compilados a código máquina</p>
 <p>Cómo funciona un navegador por dentro</p>
-<p>A gestionar el desarrollo con un <em>toolset</em> real</p>
-<p>A hacer proyectos de forma profesional, presentarlos y entregarlos</p>
+<p>Cómo gestionar el desarrollo con un <em>toolset</em> real</p>
+<p>Cómo hacer proyectos de forma profesional, presentarlos y entregarlos</p>
 </section>
 <section id="cómo-enfocar-la-asignatura" class="slide level2">
 <h2>Cómo enfocar la asignatura</h2>
 <p>No ser pasivos</p>
-<p>Buscar recursos en Internet: <a href="https://es.wikipedia.org/wiki/GIYF">GIYF</a></p>
+<p>Buscar recursos en Internet: <a href="https://es.wikipedia.org/wiki/GIYF">RTFM o GIYF</a></p>
 <p>Tener ganas de <strong>aprender</strong>, no de aprobar</p>
 <p>Proponer cosas, intentar cosas nuevas</p>
 <!-- [Soltar sermón motivador]{.fragment} -->
@@ -65,7 +65,7 @@
 <h2>El proyecto más allá de la asignatura</h2>
 <p>El objetivo es que lo que hagáis en la asignatura valga más allá de la asignatura</p>
 <ul>
-<li>Portafolio</li>
+<li>Portfolio</li>
 <li>Expresión</li>
 <li>Comunicación</li>
 </ul>
@@ -77,16 +77,17 @@
 </section>
 <section class="slide level2">
 
-<p><strong>Carlos León</strong></p>
-<p>Despacho 444 (4ª planta), tlf. 7643<br />
-<a href="mailto:cleon@ucm.es" class="email">cleon@ucm.es</a></p>
-<p><strong>Guillermo Jiménez</strong></p>
-<p>Despacho 436 (4ª planta), tlf. 7560<br />
-<a href="mailto:guille@ucm.es" class="email">guille@ucm.es</a></p>
+<p><strong>Guillermo Jiménez Díaz</strong></p>
+<p>Despacho 436 (4ª planta)<br />
+L: 11-13h; V: 15-17h<br />
+<a href="mailto:gjimenez@ucm.es" class="email">gjimenez@ucm.es</a></p>
+<p><strong>Iván Martínez Ortiz</strong></p>
+<p>Despacho 444 (4ª planta)<br />
+<a href="mailto:imartinez@ucm.es" class="email">imartinez@ucm.es</a></p>
 </section>
 <section id="desarrollo-de-la-asignatura" class="slide level2">
 <h2>Desarrollo de la asignatura</h2>
-<p>El material de la asignatura se ha creado en colaboración con <strong>Mozilla</strong></p>
+<p>El material de la asignatura ha sido creado por Carlos León, en colaboración con <strong>Mozilla</strong></p>
 <p><img data-src="mozilla.png" style="width:20.0%" alt="Mozilla" /><br />
 </p>
 <p>¡Gracias a <a href="https://es.linkedin.com/in/delapuente">Salvador de la Puente</a>, <a href="https://es.linkedin.com/in/belenalbeza">Belén Albeza</a> e <a href="https://es.linkedin.com/in/ismael-sagredo-olivenza-b16b6937">Ismael Sagredo</a>!</p>
@@ -110,12 +111,12 @@
 <section id="entregas-del-proyecto" class="slide level2">
 <h2>Entregas del proyecto</h2>
 <p>Se calificarán varios hitos, pero la nota final será la última</p>
-<p>Las hitos son obligatorias, y su presentación pública en clase, también</p>
+<p>Los hitos son obligatorios, y su presentación pública en clase, también</p>
 </section>
 <section id="contribución" class="slide level2">
 <h2>Contribución</h2>
 <p>Cada miembro declarará su contribución relativa al proyecto, para ponderar la nota</p>
-<p>Recordad que lo importante es la <em>implementación</em></p>
+<p>Recordad que <strong>lo importante es la implementación</strong></p>
 </section>
 <section id="copias" class="slide level2">
 <h2>Copias</h2>
@@ -170,7 +171,7 @@
 
   <script src="../reveal.js/dist/reveal.js"></script>
 
-  // reveal.js plugins
+  <!-- reveal.js plugins -->
   <script src="../reveal.js/plugin/notes/notes.js"></script>
   <script src="../reveal.js/plugin/search/search.js"></script>
   <script src="../reveal.js/plugin/zoom/zoom.js"></script>
@@ -180,12 +181,145 @@
       // Full list of configuration options available at:
       // https://revealjs.com/config/
       Reveal.initialize({
+        // Display controls in the bottom right corner
+        controls: true,
+
+        // Help the user learn the controls by providing hints, for example by
+        // bouncing the down arrow when they first encounter a vertical slide
+        controlsTutorial: true,
+
+        // Determines where controls appear, "edges" or "bottom-right"
+        controlsLayout: 'bottom-right',
+
+        // Visibility rule for backwards navigation arrows; "faded", "hidden"
+        // or "visible"
+        controlsBackArrows: 'faded',
+
         // Display a presentation progress bar
         progress: true,
+
         // Display the page number of the current slide
         slideNumber: true,
+
+        // 'all', 'print', or 'speaker'
+        showSlideNumber: 'all',
+
+        // Add the current slide number to the URL hash so that reloading the
+        // page/copying the URL will return you to the same slide
+        hash: false,
+
+        // Start with 1 for the hash rather than 0
+        hashOneBasedIndex: false,
+
+        // Flags if we should monitor the hash and change slides accordingly
+        respondToHashChanges: true,
+
         // Push each slide change to the browser history
-        history: true,
+        history: false,
+
+        // Enable keyboard shortcuts for navigation
+        keyboard: true,
+
+        // Enable the slide overview mode
+        overview: true,
+
+        // Disables the default reveal.js slide layout (scaling and centering)
+        // so that you can use custom CSS layout
+        disableLayout: false,
+
+        // Vertical centering of slides
+        center: true,
+
+        // Enables touch navigation on devices with touch input
+        touch: true,
+
+        // Loop the presentation
+        loop: false,
+
+        // Change the presentation direction to be RTL
+        rtl: false,
+
+        // see https://revealjs.com/vertical-slides/#navigation-mode
+        navigationMode: 'default',
+
+        // Randomizes the order of slides each time the presentation loads
+        shuffle: false,
+
+        // Turns fragments on and off globally
+        fragments: true,
+
+        // Flags whether to include the current fragment in the URL,
+        // so that reloading brings you to the same fragment position
+        fragmentInURL: true,
+
+        // Flags if the presentation is running in an embedded mode,
+        // i.e. contained within a limited portion of the screen
+        embedded: false,
+
+        // Flags if we should show a help overlay when the questionmark
+        // key is pressed
+        help: true,
+
+        // Flags if it should be possible to pause the presentation (blackout)
+        pause: true,
+
+        // Flags if speaker notes should be visible to all viewers
+        showNotes: false,
+
+        // Global override for autoplaying embedded media (null/true/false)
+        autoPlayMedia: null,
+
+        // Global override for preloading lazy-loaded iframes (null/true/false)
+        preloadIframes: null,
+
+        // Number of milliseconds between automatically proceeding to the
+        // next slide, disabled when set to 0, this value can be overwritten
+        // by using a data-autoslide attribute on your slides
+        autoSlide: 0,
+
+        // Stop auto-sliding after user input
+        autoSlideStoppable: true,
+
+        // Use this method for navigation when auto-sliding
+        autoSlideMethod: null,
+
+        // Specify the average time in seconds that you think you will spend
+        // presenting each slide. This is used to show a pacing timer in the
+        // speaker view
+        defaultTiming: null,
+
+        // Enable slide navigation via mouse wheel
+        mouseWheel: false,
+
+        // The display mode that will be used to show slides
+        display: 'block',
+
+        // Hide cursor if inactive
+        hideInactiveCursor: true,
+
+        // Time before the cursor is hidden (in ms)
+        hideCursorTime: 5000,
+
+        // Opens links in an iframe preview overlay
+        previewLinks: false,
+
+        // Transition style (none/fade/slide/convex/concave/zoom)
+        transition: 'slide',
+
+        // Transition speed (default/fast/slow)
+        transitionSpeed: 'default',
+
+        // Transition style for full page slide backgrounds
+        // (none/fade/slide/convex/concave/zoom)
+        backgroundTransition: 'fade',
+
+        // Number of slides away from the current that are visible
+        viewDistance: 3,
+
+        // Number of slides away from the current that are visible on mobile
+        // devices. It is advisable to set this to a lower number than
+        // viewDistance in order to save resources.
+        mobileViewDistance: 2,
 
         // reveal.js plugins
         plugins: [

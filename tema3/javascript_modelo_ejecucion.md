@@ -222,7 +222,7 @@ f();
 ---
 
 
-Con las declaraciones de funciones esto no pasa, cuando una declaración de función se alza, se alza entera, **definición incluída**
+Con las declaraciones de funciones esto no pasa: cuando una declaración de función se alza, se alza entera, **definición incluida**
 
 ```js
 function getEven(list) {
@@ -327,6 +327,50 @@ objeto = {no: "funciona"}; // da error
 
 En general, usemos `let`{.js} y `const`{.js} siempre que no necesitemos nada sofisticado, son más "razonables" que `var`{.js}
 
+# Diferencias entre ámbitos en node y el navegador
+
+---
+
+
+Hemos dicho que el ámbito en JavaScript es equivalente a la función pero sabemos que podemos abrir una consola o un fichero y empezar a declarar variables sin necesidad de escribir una función
+
+
+Esto es así porque estamos usando el **ámbito global**
+
+El ámbito global está **disponible en el navegador y en node**
+
+---
+
+```js
+// Esta es una variable text en el ámbito GLOBAL
+var text = 'I\'m Ziltoid, the Omniscient.';
+
+// Esta es una función en el ámbito GLOBAL
+function greetings(list) {
+  // Esta es OTRA variable text en el ámbito de la función
+  var text = 'Greetings humans!';
+  console.log(text);
+}
+
+greetings();
+console.log(text);
+```
+
+---
+
+Sin embargo, existe una peculiaridad en node
+
+El ámbito global es realmente **local al fichero**. Esto quiere decir que:
+
+```js
+// En a.js, text es visible únicamente dentro del FICHERO
+"use strict";
+var text = 'I\'m Ziltoid, the Omniscient.';
+
+// En b.js, text es visible únicamente dentro del FICHERO
+"use strict";
+var text = 'Greetings humans!';
+```
 
 # _Closures_
 
@@ -396,12 +440,12 @@ Esto **no afecta al valor de `this`{.js}** que seguirá siendo **el destinatario
 Considera el siguiente ejemplo:
 
 ```js
-var diceUtils = {
+let diceUtils = {
   history: [], // lleva el histórico de tiradas
 
   newDie: function (sides) {
     return function die() {
-      var result = Math.floor(Math.random() * sides) + 1;
+      let result = Math.floor(Math.random() * sides) + 1;
       this.history.push([new Date(), sides, result]);
       return result;
     }
@@ -417,7 +461,7 @@ Nuestra intención es poder crear dados y llevar un registro de todas las tirada
 Pero esto no funciona:
 
 ```js
-var d10 = diceUtils.newDie(10);
+const d10 = diceUtils.newDie(10);
 d10(); // ¡error!
 ```
 
@@ -444,13 +488,13 @@ Podemos hacer esto de dos maneras. La primera es un mero juego de variables:
 
 
 ```js
-var diceUtils = {
+let diceUtils = {
   history: [], // Lleva el histórico de dados
 
   newDie: function (sides) {
-    var self = this; // self es ahora el destinatario de newDie
+    let self = this; // self es ahora el destinatario de newDie
     return function die() {
-      var result = Math.floor(Math.random() * sides) + 1;
+      let result = Math.floor(Math.random() * sides) + 1;
       // Usando self nos referimos al destinatario de newDie
       self.history.push([new Date(), sides, result]);
       return result;
@@ -465,8 +509,8 @@ var diceUtils = {
 Esto sí funciona y es mucho más conveniente:
 
 ```js
-var d10 = diceUtils.newDie(10);
-var d6 = diceUtils.newDie(6);
+let d10 = diceUtils.newDie(10);
+let d6 = diceUtils.newDie(6);
 d10();
 d6();
 d10();
@@ -484,7 +528,7 @@ el primer parámetro de `bind()`{.js}**. De este modo:
 
 
 ```js
-var diceUtils = {
+let diceUtils = {
   history: [], // Lleva el histórico de dados
 
   newDie: function (sides) {
@@ -492,7 +536,7 @@ var diceUtils = {
                            // destinatario establecido al primer parámetro
 
     function die() {
-      var result = Math.floor(Math.random() * sides) + 1;
+      let result = Math.floor(Math.random() * sides) + 1;
       this.history.push([new Date(), sides, result]);
       return result;
     }
@@ -507,12 +551,12 @@ Las dos formas son **ampliamente utilizadas** pero la segunda se ve escrita much
 
 
 ```js
-var diceUtils = {
+let diceUtils = {
   history: [], // Lleva el histórico de dados
 
   newDie: function (sides) {
     return function die() {
-      var result = Math.floor(Math.random() * sides) + 1;
+      let result = Math.floor(Math.random() * sides) + 1;
       this.history.push([new Date(), sides, result]);
       return result;
     }.bind(this); // el bind sigue a la expresión de función
@@ -564,47 +608,4 @@ console.log(c.bien()); // 5, 10, 15
 
 
 
-# Diferencias entre ámbitos en node y el navegador
 
----
-
-
-Hemos dicho que el ámbito en JavaScript es equivalente a la función pero sabemos que podemos abrir una consola o un fichero y empezar a declarar variables sin necesidad de escribir una función
-
-
-Esto es así porque estamos usando el **ámbito global**
-
-El ámbito global está **disponible en el navegador y en node**
-
----
-
-```js
-// Esta es una variable text en el ámbito GLOBAL
-var text = 'I\'m Ziltoid, the Omniscient.';
-
-// Esta es una función en el ámbito GLOBAL
-function greetings(list) {
-  // Esta es OTRA variable text en el ámbito de la función
-  var text = 'Greetings humans!';
-  console.log(text);
-}
-
-greetings();
-console.log(text);
-```
-
----
-
-Sin embargo, existe una peculiaridad en node
-
-El ámbito global es realmente **local al fichero**. Esto quiere decir que:
-
-```js
-// En a.js, text es visible únicamente dentro del FICHERO
-"use strict";
-var text = 'I\'m Ziltoid, the Omniscient.';
-
-// En b.js, text es visible únicamente dentro del FICHERO
-"use strict";
-var text = 'Greetings humans!';
-```

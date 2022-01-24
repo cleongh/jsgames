@@ -19,6 +19,7 @@
     pre > code.sourceCode { white-space: pre; position: relative; }
     pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
     pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
     code.sourceCode > span { color: inherit; text-decoration: inherit; }
     div.sourceCode { margin: 1em 0; }
     pre.sourceCode { margin: 0; }
@@ -102,7 +103,7 @@
 </section>
 <section class="slide level2">
 
-<p>Para usarlo, simplemente lo habilitamos en la configuración del juego:</p>
+<p>Para usarlo, simplemente lo habilitamos en la configuración del juego añadiendo <a href="https://newdocs.phaser.io/docs/3.55.1/Phaser.Types.Physics.Matter.MatterWorldConfig">la configuración de Matter</a> la propiedad <code>physics</code>:</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode js"><code class="sourceCode javascript"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="kw">var</span> config <span class="op">=</span> {</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>    <span class="dt">physics</span><span class="op">:</span> {</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>        <span class="cf">default</span><span class="op">:</span> <span class="st">&#39;matter&#39;</span><span class="op">,</span></span>
@@ -117,7 +118,7 @@
 </section>
 <section class="slide level2">
 
-<p>A partir de ese momento, todas las <code class="sourceCode javascript">Scene</code> tendrán una propiedad <code class="sourceCode javascript">matter</code> a través de la cual podemos acceder al motor físico:</p>
+<p>A partir de ese momento, todas las <code class="sourceCode javascript">Scene</code> tendrán <a href="https://newdocs.phaser.io/docs/3.52.0/Phaser.Physics.Matter.MatterPhysics">una propiedad <code class="sourceCode javascript">matter</code></a> a través de la cual podemos acceder al motor físico:</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode js"><code class="sourceCode javascript"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co">//create</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="kw">this</span><span class="op">.</span><span class="at">load</span><span class="op">.</span><span class="fu">image</span>(<span class="st">&#39;roca&#39;</span><span class="op">,</span> <span class="st">&#39;roca.png&#39;</span>)<span class="op">;</span></span></code></pre></div>
 <div class="sourceCode" id="cb3"><pre class="sourceCode js"><code class="sourceCode javascript"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co">// update</span></span>
@@ -126,42 +127,39 @@
 <section class="slide level2">
 
 <p><em>Matter.js</em> es mucho más complejo y potente que <em>Arcade</em>, pero también tiene bastantes más requisitos de procesador</p>
+</section></section>
+<section>
+<section id="entidades-físicas-en-matter" class="title-slide slide level1">
+<h1>Entidades físicas en Matter</h1>
+
 </section>
 <section class="slide level2">
 
-<p>Podemos establecer propiedades físicas más complejas:</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode js"><code class="sourceCode javascript"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>nave <span class="op">=</span> <span class="kw">this</span><span class="op">.</span><span class="at">matter</span><span class="op">.</span><span class="at">add</span><span class="op">.</span><span class="fu">image</span>(<span class="dv">100</span><span class="op">,</span> <span class="dv">100</span><span class="op">,</span> <span class="st">&#39;nave&#39;</span>)<span class="op">;</span></span></code></pre></div>
-<div class="sourceCode" id="cb5"><pre class="sourceCode js"><code class="sourceCode javascript"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>nave<span class="op">.</span><span class="fu">setFrictionAir</span>(<span class="fl">0.1</span>)<span class="op">;</span> <span class="co">//  fricción</span></span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>nave<span class="op">.</span><span class="fu">setMass</span>(<span class="dv">50</span>)<span class="op">;</span>  <span class="co">// masa</span></span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>nave<span class="op">.</span><span class="fu">setFixedRotation</span>()<span class="op">;</span> <span class="co">// inercia infinita</span></span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>nave<span class="op">.</span><span class="fu">setAngularVelocity</span>(<span class="op">-</span><span class="fl">0.1</span>)<span class="op">;</span> <span class="co">// velocidad angular</span></span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>nave<span class="op">.</span><span class="fu">thrust</span>(<span class="fl">0.1</span>)<span class="op">;</span> <span class="co">// empuje</span></span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>nave<span class="op">.</span><span class="fu">setVelocity</span>(<span class="dv">16</span><span class="op">,</span> <span class="dv">0</span>)<span class="op">;</span> <span class="co">// x e y</span></span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>nave<span class="op">.</span><span class="fu">applyForce</span>({<span class="dv">15</span><span class="op">,</span> <span class="dv">24</span>})<span class="op">;</span> <span class="co">// un vector</span></span></code></pre></div>
-</section>
-<section id="velocidad" class="slide level2">
-<h2>Velocidad</h2>
-<p>La <strong>velocidad</strong> es una magnitud física vectorial que expresa la distancia recorrida de un objeto por unidad de tiempo</p>
-<p>Se puede modificar en el <code class="sourceCode javascript">Sprite</code>, si ha sido creado con <em>Matter.js</em></p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode js"><code class="sourceCode javascript"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>sprite<span class="op">.</span><span class="fu">setVelocity</span>(x<span class="op">,</span> y)<span class="op">;</span></span></code></pre></div>
+<p>Podemos agregar entidades a la física de Matter con:</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode js"><code class="sourceCode javascript"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co">// No solo se pueden crear imágenes (revisar doc)</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>nave <span class="op">=</span> <span class="kw">this</span><span class="op">.</span><span class="at">matter</span><span class="op">.</span><span class="at">add</span><span class="op">.</span><span class="fu">image</span>(<span class="dv">100</span><span class="op">,</span> <span class="dv">100</span><span class="op">,</span> <span class="st">&#39;nave&#39;</span>)<span class="op">;</span></span></code></pre></div>
+<p>o</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode js"><code class="sourceCode javascript"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co">// nave ha sido creado aparte, como una imagen, un sprite...</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="kw">this</span><span class="op">.</span><span class="at">matter</span><span class="op">.</span><span class="at">add</span><span class="op">.</span><span class="fu">gameObject</span>(nave)<span class="op">;</span></span></code></pre></div>
 </section>
 <section class="slide level2">
 
-<p>Si aplicamos una velocidad a un objeto físico este se moverá hacia la dirección indicada con la magnitud indicada</p>
+<p>En este caso, Matter inyecta <a href="https://newdocs.phaser.io/docs/3.52.0/Phaser.Physics.Matter.Sprite">propiedades y métodos físicos complejos</a> al objeto creado:</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode js"><code class="sourceCode javascript"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>nave<span class="op">.</span><span class="fu">setFrictionAir</span>(<span class="fl">0.1</span>)<span class="op">;</span> <span class="co">//  fricción</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>nave<span class="op">.</span><span class="fu">setMass</span>(<span class="dv">50</span>)<span class="op">;</span>  <span class="co">// masa</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>nave<span class="op">.</span><span class="fu">setFixedRotation</span>()<span class="op">;</span> <span class="co">// inercia infinita</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>nave<span class="op">.</span><span class="fu">setAngularVelocity</span>(<span class="op">-</span><span class="fl">0.1</span>)<span class="op">;</span> <span class="co">// velocidad angular</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>nave<span class="op">.</span><span class="fu">thrust</span>(<span class="fl">0.1</span>)<span class="op">;</span> <span class="co">// empuje</span></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>nave<span class="op">.</span><span class="fu">setVelocity</span>(<span class="dv">16</span><span class="op">,</span> <span class="dv">0</span>)<span class="op">;</span> <span class="co">// x e y</span></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>nave<span class="op">.</span><span class="fu">applyForce</span>({<span class="dv">15</span><span class="op">,</span> <span class="dv">24</span>})<span class="op">;</span> <span class="co">// un vector</span></span></code></pre></div>
 </section>
 <section id="aplicando-fuerzas" class="slide level2">
 <h2>Aplicando fuerzas</h2>
 </section>
 <section class="slide level2">
 
-<p>Una <strong>fuerza</strong> es todo agente capaz de modificar la cantidad de movimiento de un objeto</p>
-<p>Se aplica la segunda Ley de Newton:</p>
-<p><span class="math display"><em>F</em> = <em>m</em> × <em>a</em></span></p>
-</section>
-<section class="slide level2">
-
 <div class="sourceCode" id="cb7"><pre class="sourceCode js"><code class="sourceCode javascript"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>sprite<span class="op">.</span><span class="fu">applyForce</span>({<span class="dt">x</span><span class="op">:</span> <span class="dv">100</span><span class="op">,</span> <span class="dt">y</span><span class="op">:</span> <span class="dv">0</span>})<span class="op">;</span></span></code></pre></div>
-<p>O con funciones más cómodas, que tienen en cuenta la orientación del <code class="sourceCode javascript">Sprite</code>:</p>
+<p>O con funciones más cómodas, que tienen en cuenta la orientación del <code class="sourceCode javascript">GameObject</code>:</p>
 <div class="sourceCode" id="cb8"><pre class="sourceCode js"><code class="sourceCode javascript"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>sprite<span class="op">.</span><span class="fu">thrust</span>(<span class="dv">19</span>)<span class="op">;</span></span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>sprite<span class="op">.</span><span class="fu">thrustLeft</span>(<span class="dv">14</span>)<span class="op">;</span></span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>sprite<span class="op">.</span><span class="fu">thrustBack</span>(<span class="dv">5</span>)<span class="op">;</span></span></code></pre></div>
@@ -187,7 +185,7 @@
 </section>
 <section class="slide level2">
 
-<p>Los objetos pueden tener <em>bounding boxes</em> más elaboradas, y podemos cambiarla:</p>
+<p>Los objetos pueden tener <em>bounding boxes</em> más elaboradas y podemos cambiarla:</p>
 <div class="sourceCode" id="cb10"><pre class="sourceCode js"><code class="sourceCode javascript"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> rect <span class="op">=</span> <span class="kw">this</span><span class="op">.</span><span class="at">matter</span><span class="op">.</span><span class="at">add</span><span class="op">.</span><span class="fu">image</span>(<span class="dv">200</span><span class="op">,</span> <span class="dv">50</span><span class="op">,</span> <span class="st">&#39;blue&#39;</span>)<span class="op">;</span></span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>rect<span class="op">.</span><span class="fu">setBody</span>({</span>
@@ -198,7 +196,7 @@
 </section>
 <section id="formas" class="slide level2">
 <h2>Formas</h2>
-<p>Cada forma tiene sus propiedades particulares (por ejemplo, <code class="sourceCode javascript"><span class="st">&#39;fromVertices&#39;</span></code> tiene un array de <code class="sourceCode javascript">points<span class="op">=</span>[{x<span class="op">,</span> y}<span class="op">,</span> {x<span class="op">,</span> y}<span class="op">,</span> <span class="op">...,</span> {x<span class="op">,</span> y}]</code>)</p>
+<p>Cada forma tiene <a href="https://newdocs.phaser.io/docs/3.54.0/Phaser.Types.Physics.Matter.MatterSetBodyConfig">sus propiedades particulares</a> (por ejemplo, <code class="sourceCode javascript"><span class="st">&#39;fromVertices&#39;</span></code> tiene una cadena <code class="sourceCode javascript">verts<span class="op">=</span><span class="st">&quot;x y x y ... x y&quot;</span></code> o un array)</p>
 <ul>
 <li><code class="sourceCode javascript"><span class="st">&#39;rectangle&#39;</span></code></li>
 <li><code class="sourceCode javascript"><span class="st">&#39;circle&#39;</span></code></li>
@@ -214,7 +212,7 @@
 </section>
 <section class="slide level2">
 
-<p>Para detectar colisiones o solapamientos, tenemos eventos:</p>
+<p>Para detectar colisiones o solapamientos, <a href="https://newdocs.phaser.io/docs/3.55.2/Phaser.Physics.Matter.Events">tenemos eventos</a>:</p>
 <div class="sourceCode" id="cb11"><pre class="sourceCode js"><code class="sourceCode javascript"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co">// cuando se inicia la colisión</span></span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="kw">this</span><span class="op">.</span><span class="at">matter</span><span class="op">.</span><span class="at">world</span><span class="op">.</span><span class="fu">on</span>(<span class="st">&#39;collisionstart&#39;</span><span class="op">,</span> </span>
 <span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>    (evento<span class="op">,</span> cuerpo1<span class="op">,</span> cuerpo2) <span class="kw">=&gt;</span> {</span>
@@ -255,7 +253,7 @@
 </section>
 <section class="slide level2">
 
-<p>Para crear una unión o muelle en <em>Matter.js</em>:</p>
+<p>Para crear <a href="https://newdocs.phaser.io/docs/3.55.1/Phaser.Physics.Matter.Factory#constraint">una unión o muelle</a> en <em>Matter.js</em>:</p>
 <div class="sourceCode" id="cb12"><pre class="sourceCode js"><code class="sourceCode javascript"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>scene<span class="op">.</span><span class="at">matter</span><span class="op">.</span><span class="at">add</span><span class="op">.</span><span class="fu">constraint</span>(obj1<span class="op">,</span></span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>                            obj2<span class="op">,</span></span>
 <span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>                            <span class="dv">50</span><span class="op">,</span> <span class="co">// distancia</span></span>
@@ -265,7 +263,7 @@
 <section class="slide level2">
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/phaser/3.19.0/phaser.min.js" integrity="sha256-kF1kZP3VeVryJL2hSRtuAu34Fva0NKx/7IfxsD+Hl2Q=" crossorigin="anonymous"></script>
-<p><small>Haciendo clic, se aplica impulso a una de las bolas</small></p>
+<p><small><a href="https://codepen.io/gjimenezucm/pen/jOmBPqm">En este ejemplo</a>, haciendo clic, se aplica impulso a una de las bolas</small></p>
 <canvas id="ejemplo1" />
 <script>
 new Phaser.Game({
@@ -329,8 +327,9 @@ function create ()
 </section>
 <section class="slide level2">
 
-<p>Se activan creando formas (<code class="sourceCode javascript">circle</code>), y poniendo su propiedad <code class="sourceCode javascript">isSensor</code> a <code class="sourceCode javascript"><span class="kw">true</span></code>:</p>
-<div class="sourceCode" id="cb13"><pre class="sourceCode js"><code class="sourceCode javascript"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> sensor <span class="op">=</span> Bodies<span class="op">.</span><span class="fu">circle</span>(<span class="dv">100</span><span class="op">,</span> <span class="dv">100</span><span class="op">,</span> <span class="dv">24</span><span class="op">,</span> {<span class="dt">isSensor</span><span class="op">:</span> <span class="kw">true</span>})<span class="op">;</span></span></code></pre></div>
+<p>Se activan <a href="https://brm.io/matter-js/docs/classes/Bodies.html">creando formas</a> (por ejemplo, <code class="sourceCode javascript">circle</code>), y poniendo su propiedad <code class="sourceCode javascript">isSensor</code> a <code class="sourceCode javascript"><span class="kw">true</span></code>:</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode js"><code class="sourceCode javascript"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> Bodies <span class="op">=</span> Phaser<span class="op">.</span><span class="at">Physics</span><span class="op">.</span><span class="at">Matter</span><span class="op">.</span><span class="at">Matter</span><span class="op">.</span><span class="at">Bodies</span><span class="op">;</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> sensor <span class="op">=</span> Bodies<span class="op">.</span><span class="fu">circle</span>(<span class="dv">100</span><span class="op">,</span> <span class="dv">100</span><span class="op">,</span> <span class="dv">24</span><span class="op">,</span> {<span class="dt">isSensor</span><span class="op">:</span> <span class="kw">true</span>})<span class="op">;</span></span></code></pre></div>
 </section></section>
 <section>
 <section id="cuerpos-compuestos" class="title-slide slide level1">
@@ -339,10 +338,7 @@ function create ()
 </section>
 <section class="slide level2">
 
-<p><em>Matter.js</em> ofrece soporte para cuerpos compuestos, que están formados por varias formas físicas (<strong>con o sin colisión</strong>)</p>
-</section>
-<section class="slide level2">
-
+<p><em>Matter.js</em> ofrece soporte para <a href="https://brm.io/matter-js/docs/classes/Body.html#method_create">cuerpos compuestos</a>, que están formados por varias formas físicas (<strong>con o sin colisión</strong>)</p>
 <div class="sourceCode" id="cb14"><pre class="sourceCode js"><code class="sourceCode javascript"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co">// `circle` y `rect` son cuerpos con coordenadas relativas</span></span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="co">// al cuerpo al que los &quot;enganchamos&quot;</span></span>
 <span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> compuesto <span class="op">=</span> Phaser<span class="op">.</span><span class="at">Physics</span><span class="op">.</span><span class="at">Matter</span><span class="op">.</span><span class="at">Matter</span><span class="op">.</span><span class="at">Body</span><span class="op">.</span><span class="fu">create</span>({</span>
@@ -353,9 +349,10 @@ function create ()
 <section class="slide level2">
 
 <p>Una vez que tenemos un cuerpo físico, se lo podemos asignar a una imagen:</p>
-<div class="sourceCode" id="cb15"><pre class="sourceCode js"><code class="sourceCode javascript"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="kw">this</span><span class="op">.</span><span class="at">jugador</span> <span class="op">=</span> <span class="kw">this</span><span class="op">.</span><span class="at">matter</span><span class="op">.</span><span class="at">add</span><span class="op">.</span><span class="fu">image</span>(<span class="dv">0</span><span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="st">&#39;imagen&#39;</span>)<span class="op">;</span></span>
+<div class="sourceCode" id="cb15"><pre class="sourceCode js"><code class="sourceCode javascript"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="kw">this</span><span class="op">.</span><span class="at">player</span> <span class="op">=</span> <span class="kw">this</span><span class="op">.</span><span class="at">matter</span><span class="op">.</span><span class="at">add</span><span class="op">.</span><span class="fu">image</span>(<span class="dv">0</span><span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="st">&#39;imagen&#39;</span>)<span class="op">;</span></span>
 <span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="co">// hemos creado `compuesto` antes</span></span>
 <span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="kw">this</span><span class="op">.</span><span class="at">player</span><span class="op">.</span><span class="fu">setExistingBody</span>(compuesto)<span class="op">;</span></span></code></pre></div>
+<p><small>Aquí puedes ver <a href="https://phaser.io/examples/v3/view/physics/matterjs/compound-sensors#">un ejemplo de uso de cuerpos compuestos y sensores</a></small></p>
 </section></section>
 <section>
 <section id="grupos-de-colisión" class="title-slide slide level1">
@@ -487,7 +484,7 @@ function create ()
 
   <script src="../reveal.js/dist/reveal.js"></script>
 
-  // reveal.js plugins
+  <!-- reveal.js plugins -->
   <script src="../reveal.js/plugin/notes/notes.js"></script>
   <script src="../reveal.js/plugin/search/search.js"></script>
   <script src="../reveal.js/plugin/zoom/zoom.js"></script>
@@ -497,12 +494,145 @@ function create ()
       // Full list of configuration options available at:
       // https://revealjs.com/config/
       Reveal.initialize({
+        // Display controls in the bottom right corner
+        controls: true,
+
+        // Help the user learn the controls by providing hints, for example by
+        // bouncing the down arrow when they first encounter a vertical slide
+        controlsTutorial: true,
+
+        // Determines where controls appear, "edges" or "bottom-right"
+        controlsLayout: 'bottom-right',
+
+        // Visibility rule for backwards navigation arrows; "faded", "hidden"
+        // or "visible"
+        controlsBackArrows: 'faded',
+
         // Display a presentation progress bar
         progress: true,
+
         // Display the page number of the current slide
         slideNumber: true,
+
+        // 'all', 'print', or 'speaker'
+        showSlideNumber: 'all',
+
+        // Add the current slide number to the URL hash so that reloading the
+        // page/copying the URL will return you to the same slide
+        hash: true,
+
+        // Start with 1 for the hash rather than 0
+        hashOneBasedIndex: false,
+
+        // Flags if we should monitor the hash and change slides accordingly
+        respondToHashChanges: true,
+
         // Push each slide change to the browser history
         history: true,
+
+        // Enable keyboard shortcuts for navigation
+        keyboard: true,
+
+        // Enable the slide overview mode
+        overview: true,
+
+        // Disables the default reveal.js slide layout (scaling and centering)
+        // so that you can use custom CSS layout
+        disableLayout: false,
+
+        // Vertical centering of slides
+        center: true,
+
+        // Enables touch navigation on devices with touch input
+        touch: true,
+
+        // Loop the presentation
+        loop: false,
+
+        // Change the presentation direction to be RTL
+        rtl: false,
+
+        // see https://revealjs.com/vertical-slides/#navigation-mode
+        navigationMode: 'default',
+
+        // Randomizes the order of slides each time the presentation loads
+        shuffle: false,
+
+        // Turns fragments on and off globally
+        fragments: true,
+
+        // Flags whether to include the current fragment in the URL,
+        // so that reloading brings you to the same fragment position
+        fragmentInURL: true,
+
+        // Flags if the presentation is running in an embedded mode,
+        // i.e. contained within a limited portion of the screen
+        embedded: false,
+
+        // Flags if we should show a help overlay when the questionmark
+        // key is pressed
+        help: true,
+
+        // Flags if it should be possible to pause the presentation (blackout)
+        pause: true,
+
+        // Flags if speaker notes should be visible to all viewers
+        showNotes: false,
+
+        // Global override for autoplaying embedded media (null/true/false)
+        autoPlayMedia: null,
+
+        // Global override for preloading lazy-loaded iframes (null/true/false)
+        preloadIframes: null,
+
+        // Number of milliseconds between automatically proceeding to the
+        // next slide, disabled when set to 0, this value can be overwritten
+        // by using a data-autoslide attribute on your slides
+        autoSlide: 0,
+
+        // Stop auto-sliding after user input
+        autoSlideStoppable: true,
+
+        // Use this method for navigation when auto-sliding
+        autoSlideMethod: null,
+
+        // Specify the average time in seconds that you think you will spend
+        // presenting each slide. This is used to show a pacing timer in the
+        // speaker view
+        defaultTiming: null,
+
+        // Enable slide navigation via mouse wheel
+        mouseWheel: false,
+
+        // The display mode that will be used to show slides
+        display: 'block',
+
+        // Hide cursor if inactive
+        hideInactiveCursor: true,
+
+        // Time before the cursor is hidden (in ms)
+        hideCursorTime: 5000,
+
+        // Opens links in an iframe preview overlay
+        previewLinks: false,
+
+        // Transition style (none/fade/slide/convex/concave/zoom)
+        transition: 'slide',
+
+        // Transition speed (default/fast/slow)
+        transitionSpeed: 'default',
+
+        // Transition style for full page slide backgrounds
+        // (none/fade/slide/convex/concave/zoom)
+        backgroundTransition: 'fade',
+
+        // Number of slides away from the current that are visible
+        viewDistance: 3,
+
+        // Number of slides away from the current that are visible on mobile
+        // devices. It is advisable to set this to a lower number than
+        // viewDistance in order to save resources.
+        mobileViewDistance: 2,
 
         // reveal.js plugins
         plugins: [

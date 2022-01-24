@@ -19,6 +19,7 @@
     pre > code.sourceCode { white-space: pre; position: relative; }
     pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
     pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
     code.sourceCode > span { color: inherit; text-decoration: inherit; }
     div.sourceCode { margin: 1em 0; }
     pre.sourceCode { margin: 0; }
@@ -123,21 +124,21 @@
 <h2>Caracteristicas de una onda</h2>
 <p>La longitud de onda (simbolizada por <strong>λ</strong>) es la distancia entre dos crestas o valles seguidos.</p>
 <p>El periodo <strong>T</strong> es el tiempo requerido para que el movimiento de oscilación de la onda describa un ciclo completo</p>
-<p><span class="math display">$$f = \frac{1}{T}$$</span></p>
-</section>
-<section class="slide level2">
-
-<p>La frecuencia <strong>f</strong> es el número de ciclos completos transcurridos en una unidad de tiempo</p>
-<p>Hercio (Hz) es el número de veces que se repite una onda por segundo</p>
-<blockquote>
-<p>100 kHzs = 100.000 veces por segundo</p>
-</blockquote>
 </section>
 <section class="slide level2">
 
 <figure>
 <img data-src="nonsinusoidal_wavelength.jpg" alt="La amplitud de la onda es la altura de la cresta" /><figcaption aria-hidden="true">La amplitud de la onda es la altura de la cresta</figcaption>
 </figure>
+</section>
+<section class="slide level2">
+
+<p>La frecuencia <strong>f</strong> es el número de ciclos completos transcurridos en una unidad de tiempo</p>
+<p>f = 1 / T</p>
+<p>Hercio (Hz) es el número de veces que se repite una onda por segundo</p>
+<blockquote>
+<p>100 kHzs = 100.000 veces por segundo</p>
+</blockquote>
 </section>
 <section id="cómo-producir-sonido" class="slide level2">
 <h2>¿Cómo producir sonido?</h2>
@@ -185,13 +186,14 @@
 <section class="slide level2">
 
 <p>Cuando la precisión es muy grande, el archivo de audio puede tener un tamaño de varias decenas de megas para una canción de 2 o 3 minutos</p>
+<p>Esto ocurre con formatos como <strong>WAV o AIFF</strong> (sin compresión)</p>
 <p>Por tanto, usamos <strong>compresión</strong></p>
 </section>
 <section class="slide level2">
 
 <p>Cuando usamos compresión, tenemos dos familias de formatos:</p>
 <ul>
-<li>formatos sin pérdida: el audio, al comprimir y descomprimir, no pierde datos</li>
+<li>formatos sin pérdida: el audio, al comprimir y descomprimir, no pierde datos (FLAC)</li>
 <li>formatos con pérdida: el audio, al ser comprimido, pierde fidelidad. Pero, generalmente, esta pérdida no se nota por el oyente, y la compresión es mucho mayor (MP3)</li>
 </ul>
 </section>
@@ -240,11 +242,11 @@
 </section>
 <section class="slide level2">
 
-<p>Es muy normal que, como recursos, los archivos de audio estén en formatos sin compresión y sean cortos</p>
+<p>Es muy normal que, como recursos, los sonidos estén en archivos de audio en formatos sin compresión y sean cortos</p>
 </section>
 <section class="slide level2">
 
-<p>La música, normalmente, está codificada como pistas. De la misma forma que solemos escucharla en reproductores modernos (<a href="https://es.wikipedia.org/wiki/MP3">MP3</a>, <a href="https://es.wikipedia.org/wiki/Ogg">OGG</a>)</p>
+<p>La música, normalmente, está codificada como pistas, de la misma forma que solemos escucharla en reproductores modernos (<a href="https://es.wikipedia.org/wiki/MP3">MP3</a>, <a href="https://es.wikipedia.org/wiki/Ogg">OGG</a>)</p>
 </section></section>
 <section>
 <section id="reproducir-audio-en-un-navegador" class="title-slide slide level1">
@@ -257,8 +259,8 @@
 </section>
 <section id="elemento-audio" class="slide level2">
 <h2>Elemento <code class="sourceCode html"><span class="kw">&lt;audio&gt;</span></code></h2>
-<div class="sourceCode" id="cb1"><pre class="sourceCode html"><code class="sourceCode html"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;audio</span><span class="ot"> controls</span><span class="kw">&gt;</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  <span class="kw">&lt;source</span><span class="ot"> src=</span><span class="st">&quot;https://upload.wikimedia.org/wikipedia/en/4/45/ACDC_-_Back_In_Black-sample.ogg&quot;</span><span class="ot"> type=</span><span class="st">&quot;audio/ogg&quot;</span><span class="kw">&gt;</span></span>
+<div class="sourceCode" id="cb1"><pre class="sourceCode html"><code class="sourceCode html"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;audio</span> <span class="er">controls</span><span class="kw">&gt;</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  <span class="kw">&lt;source</span> <span class="er">src</span><span class="ot">=</span><span class="st">&quot;https://upload.wikimedia.org/wikipedia/en/4/45/ACDC_-_Back_In_Black-sample.ogg&quot;</span> <span class="er">type</span><span class="ot">=</span><span class="st">&quot;audio/ogg&quot;</span><span class="kw">&gt;</span></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  Tu navegador no soporta audio</span>
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;/audio&gt;</span></span></code></pre></div>
 <audio controls>
@@ -272,7 +274,7 @@
 </section>
 <section class="slide level2">
 
-<p>Web Audio es una forma de reproducir audio en el navegador a bajo nivel</p>
+<p><a href="https://developer.mozilla.org/en-US/docs/Web/API/Web_Audio_API">Web Audio</a> es una forma de reproducir audio en el navegador a bajo nivel</p>
 </section>
 <section class="slide level2">
 
@@ -373,7 +375,7 @@ Ejemplo de oscilador con nodos
 
   <script src="../reveal.js/dist/reveal.js"></script>
 
-  // reveal.js plugins
+  <!-- reveal.js plugins -->
   <script src="../reveal.js/plugin/notes/notes.js"></script>
   <script src="../reveal.js/plugin/search/search.js"></script>
   <script src="../reveal.js/plugin/zoom/zoom.js"></script>
@@ -383,12 +385,145 @@ Ejemplo de oscilador con nodos
       // Full list of configuration options available at:
       // https://revealjs.com/config/
       Reveal.initialize({
+        // Display controls in the bottom right corner
+        controls: true,
+
+        // Help the user learn the controls by providing hints, for example by
+        // bouncing the down arrow when they first encounter a vertical slide
+        controlsTutorial: true,
+
+        // Determines where controls appear, "edges" or "bottom-right"
+        controlsLayout: 'bottom-right',
+
+        // Visibility rule for backwards navigation arrows; "faded", "hidden"
+        // or "visible"
+        controlsBackArrows: 'faded',
+
         // Display a presentation progress bar
         progress: true,
+
         // Display the page number of the current slide
         slideNumber: true,
+
+        // 'all', 'print', or 'speaker'
+        showSlideNumber: 'all',
+
+        // Add the current slide number to the URL hash so that reloading the
+        // page/copying the URL will return you to the same slide
+        hash: true,
+
+        // Start with 1 for the hash rather than 0
+        hashOneBasedIndex: false,
+
+        // Flags if we should monitor the hash and change slides accordingly
+        respondToHashChanges: true,
+
         // Push each slide change to the browser history
         history: true,
+
+        // Enable keyboard shortcuts for navigation
+        keyboard: true,
+
+        // Enable the slide overview mode
+        overview: true,
+
+        // Disables the default reveal.js slide layout (scaling and centering)
+        // so that you can use custom CSS layout
+        disableLayout: false,
+
+        // Vertical centering of slides
+        center: true,
+
+        // Enables touch navigation on devices with touch input
+        touch: true,
+
+        // Loop the presentation
+        loop: false,
+
+        // Change the presentation direction to be RTL
+        rtl: false,
+
+        // see https://revealjs.com/vertical-slides/#navigation-mode
+        navigationMode: 'default',
+
+        // Randomizes the order of slides each time the presentation loads
+        shuffle: false,
+
+        // Turns fragments on and off globally
+        fragments: true,
+
+        // Flags whether to include the current fragment in the URL,
+        // so that reloading brings you to the same fragment position
+        fragmentInURL: true,
+
+        // Flags if the presentation is running in an embedded mode,
+        // i.e. contained within a limited portion of the screen
+        embedded: false,
+
+        // Flags if we should show a help overlay when the questionmark
+        // key is pressed
+        help: true,
+
+        // Flags if it should be possible to pause the presentation (blackout)
+        pause: true,
+
+        // Flags if speaker notes should be visible to all viewers
+        showNotes: false,
+
+        // Global override for autoplaying embedded media (null/true/false)
+        autoPlayMedia: null,
+
+        // Global override for preloading lazy-loaded iframes (null/true/false)
+        preloadIframes: null,
+
+        // Number of milliseconds between automatically proceeding to the
+        // next slide, disabled when set to 0, this value can be overwritten
+        // by using a data-autoslide attribute on your slides
+        autoSlide: 0,
+
+        // Stop auto-sliding after user input
+        autoSlideStoppable: true,
+
+        // Use this method for navigation when auto-sliding
+        autoSlideMethod: null,
+
+        // Specify the average time in seconds that you think you will spend
+        // presenting each slide. This is used to show a pacing timer in the
+        // speaker view
+        defaultTiming: null,
+
+        // Enable slide navigation via mouse wheel
+        mouseWheel: false,
+
+        // The display mode that will be used to show slides
+        display: 'block',
+
+        // Hide cursor if inactive
+        hideInactiveCursor: true,
+
+        // Time before the cursor is hidden (in ms)
+        hideCursorTime: 5000,
+
+        // Opens links in an iframe preview overlay
+        previewLinks: false,
+
+        // Transition style (none/fade/slide/convex/concave/zoom)
+        transition: 'slide',
+
+        // Transition speed (default/fast/slow)
+        transitionSpeed: 'default',
+
+        // Transition style for full page slide backgrounds
+        // (none/fade/slide/convex/concave/zoom)
+        backgroundTransition: 'fade',
+
+        // Number of slides away from the current that are visible
+        viewDistance: 3,
+
+        // Number of slides away from the current that are visible on mobile
+        // devices. It is advisable to set this to a lower number than
+        // viewDistance in order to save resources.
+        mobileViewDistance: 2,
 
         // reveal.js plugins
         plugins: [

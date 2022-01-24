@@ -7,7 +7,7 @@ title: Texto en Phaser
 
 ---
 
-Para crear texto simplemente podemos usar la clase `Phaser.GameObjects.Text`{.js} con la factoría de Phaser `add.text`{.js} de `Scene`{.js}
+Para crear texto simplemente podemos usar la clase [`Phaser.GameObjects.Text`{.js}](https://newdocs.phaser.io/docs/3.55.2/Phaser.GameObjects.Text) con la factoría de Phaser `add.text`{.js} de `Scene`{.js}
 
 ---
 
@@ -22,8 +22,9 @@ Pero podemos modificar los atributos de `text`{.js} para cambiar su aspecto como
 ---
 
 ```js
-// this es una `Scene`
+// this es una Scene
 let text = this.add.text(this.cameras.main.centerX, this.cameras.main.centerY, '- phaser text stroke -');
+text.setOrigin(0.5,0.5);
 
 // alineación del texto
 text.setAlign('center');
@@ -36,6 +37,31 @@ text.setFontSize(50);
 text.setStroke('#000000', 6)
 text.setFill('#43d637');
 text.setShadow(5, 5, 'rgba(0,0,0,0.5)', 5);
+```
+
+---
+
+## Texto en UI
+
+Muchas veces, el texto se utiliza como parte de la UI del juego (puntuación, vidas...)
+
+Pero el texto creado tal cual lo hemos hecho tiene una posición en la escena y, por tanto, se queda fijo al mover la cámara y puede desaparecer de la escena.
+
+---
+
+**Solución**: Recordad que algunos GameObject tienen un método [`SetScrollFactor`](https://newdocs.phaser.io/docs/3.52.0/Phaser.GameObjects.Sprite#setScrollFactor) que controla el movimiento de un objeto con respecto al de la cámara
+
+---
+
+## Botones con texto
+
+Se puede crear un botón fácilmente usando un texto interactivo y añadiendo un evento de `onpointerdown`:
+
+```js
+let button = this.add.text(...).setInteractive();
+button.on('pointerdown', pointer => {
+    // hacer algo
+});
 ```
 
 
@@ -55,29 +81,27 @@ text.setShadow(5, 5, 'rgba(0,0,0,0.5)', 5);
 
 ---
 
-Una fuente de nuestra máquina puede no estar disponible en la máquina del usuario
+Una fuente de nuestra máquina puede no estar disponible en la máquina del usuario.
 
-¿Solución? Usar fuentes estándar, crear nuestras propias fuentes de mapa de bits (bitmaps) o usar fuentes Web (**webfonts**) como [Google Fonts](https://fonts.google.com/)
+¿Solución? Usar [fuentes estándar](https://www.w3schools.com/cssref/css_websafe_fonts.asp), crear nuestras propias fuentes de mapa de bits (bitmap fonts) o usar fuentes Web (**webfonts**) como [Google Fonts](https://fonts.google.com/)
 
 ---
 
 
+![Bitmap Fonts](bitmapfont.png)
+
+---
+
 ## Texto con fuentes de mapa de bits
 
-Para cargar un fuente de mapa de bits hay que usar `scene.load.bitmapFont()`{.js} en el `preload`{.js}
+Para cargar una fuente de mapa de bits hay que usar [`scene.load.bitmapFont()`{.js}](https://newdocs.phaser.io/docs/3.55.2/Phaser.Loader.LoaderPlugin#bitmapFont) en el `preload`{.js}
 
 Hay que pasarle el bitmap (en [PNG](https://es.wikipedia.org/wiki/Portable_Network_Graphics), por ejemplo) con las fuentes y el XML que las describe
 
 ---
 
-Para generar el XML y el mapa de bits podemos usar:
-
-- [Littera](http://kvazars.com/littera/)
-- [Bmfont](http://www.angelcode.com/products/bmfont/) (Windows) 
-
----
-
 ```js
+// this es scene
 preload(){
     this.load.bitmapFont(
         'bitmapFont', 'assets/fonts/bitmapFonts/bitmapFont.png',
@@ -87,7 +111,13 @@ create(){
     this.greeting = this.add.bitmapText(200, 100, 'bitmapFont','Bitmap Fonts!', 64);
 }
 ```
+---
 
+Para generar el XML y el mapa de bits podemos usar:
+
+- [SnowB BMF](https://snowb.org/) (online)
+- [Bmfont](http://www.angelcode.com/products/bmfont/) (Windows) 
+- [Glyph Designer](https://www.71squared.com/glyphdesigner)
 
 
 
@@ -104,7 +134,7 @@ create(){
 
 ---
 
-Podemos cargar fuentes desde la web, por ejemplo desde Google Fonts
+Podemos cargar fuentes desde la web, por ejemplo desde [Google Fonts](https://fonts.google.com/)
 
 Hay que cargar la fuente previamente antes de usarla
 
@@ -124,7 +154,9 @@ Después, llamamos a `WebFont.load()`{.js}:
 
 
 ```js
-create() {
+// this es Scene
+create(){
+    let self = this; // Para usarlo en active
     WebFont.load({
         google: {
             families: [ 'Freckle Face', 'Finger Paint', 'Nosifer' ]
@@ -132,7 +164,7 @@ create() {
         active: function () // se llama a esta función cuando está cargada
         {
             let nuevoTexto = 
-                this.add.text(16, 0, 
+                self.add.text(16, 0, 
                     'The face of the\nmoon was in\nshadow.', 
                     { fontFamily: 'Freckle Face', fontSize: 80, color: '#ffffff' })
             nuevoTexto.setShadow(2, 2, "#333333", 2, false, true);
@@ -147,3 +179,41 @@ create() {
 
 Que dependemos de ellas para que el juego funcione y no tenemos control sobre ellas
 
+## Solución
+
+Almacenar las fuentes de nuestro juego en el servidor y cargarlas.
+
+Las podemos guardar en `/assets/fonts`
+
+---
+
+Creamos una función auxiliar y cargamos la fuente:
+
+```js
+loadFont(name, url) {
+    let newFont = new FontFace(name, `url(${url})`);
+    newFont.load().then(function (loaded) {
+        document.fonts.add(loaded);
+    }).catch(function (error) {
+        return error;
+    });
+}
+
+preload() {
+    // Archivo .ttf descargable desde
+    // https://www.dafont.com/es/happy-donuts.font
+    this.loadFont("Donuts", "/assets/fonts/HAPPY_DONUTS.ttf");
+}
+```
+
+---
+
+```js
+// this es Scene
+create() {
+    let nuevoTexto = 
+        this.add.text(16, 0, 
+            'The face of the\nmoon was in\nshadow.', 
+            { fontFamily: 'Donuts', fontSize: 80, color: '#ffffff' })
+}
+```

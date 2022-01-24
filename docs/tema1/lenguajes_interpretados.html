@@ -19,6 +19,7 @@
     pre > code.sourceCode { white-space: pre; position: relative; }
     pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
     pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
     code.sourceCode > span { color: inherit; text-decoration: inherit; }
     div.sourceCode { margin: 1em 0; }
     pre.sourceCode { margin: 0; }
@@ -96,13 +97,24 @@
 <h1>Lenguajes interpretados</h1>
 
 </section>
+<section id="lenguajes-compilados-a-código-máquina" class="slide level2">
+<h2>Lenguajes compilados a código máquina</h2>
+<figure>
+<img data-src="compilar.dot.svg" alt="Funcionamiento (Ej. C++)" /><figcaption aria-hidden="true">Funcionamiento (Ej. C++)</figcaption>
+</figure>
+</section>
+<section id="lenguajes-compilados-a-código-intermedio-bytecode" class="slide level2">
+<h2>Lenguajes compilados a código intermedio (bytecode)</h2>
+<figure>
+<img data-src="compilado-bytecode.dot.svg" alt="Funcionamiento (Ej. C#, Java)" /><figcaption aria-hidden="true">Funcionamiento (Ej. C#, Java)</figcaption>
+</figure>
+</section>
 <section id="qué-son-lenguajes-interpretados" class="slide level2">
 <h2>Qué son lenguajes interpretados</h2>
 </section>
 <section class="slide level2">
 
-<p>Los <a href="https://en.wikipedia.org/wiki/Interpreted_language">lenguajes interpretados</a> son lenguajes diseñados para describir programas que <strong>no</strong> se ejecutan en el procesador, sino en otro programa</p>
-<p>Es decir, hay un programa que emula a un procesador: el <strong>intérprete</strong></p>
+<p>Los <a href="https://en.wikipedia.org/wiki/Interpreted_language">lenguajes interpretados</a> son lenguajes diseñados para describir programas que <strong>no</strong> se ejecutan en el procesador, sino en otro programa que emula a un procesador, llamado <strong>intérprete</strong></p>
 <figure>
 <img data-src="interpretes.dot.svg" style="height:30.0%" alt="Esquema de lenguaje interpretado" /><figcaption aria-hidden="true">Esquema de lenguaje interpretado</figcaption>
 </figure>
@@ -159,23 +171,23 @@
 <h2>Tipado estático</h2>
 <p>Los lenguajes de tipado estático tienen sistemas para declarar y fijar el tipo de las variables, estructuras de datos y funciones</p>
 <p>Por ejemplo, a través de la declaración de tipos:</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> a = <span class="dv">5</span>;</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> suma(<span class="dt">int</span> x, <span class="dt">int</span> y) { <span class="cf">return</span> x + y; }</span></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> a <span class="op">=</span> <span class="dv">5</span><span class="op">;</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> suma<span class="op">(</span><span class="dt">int</span> x<span class="op">,</span> <span class="dt">int</span> y<span class="op">)</span> <span class="op">{</span> <span class="cf">return</span> x <span class="op">+</span> y<span class="op">;</span> <span class="op">}</span></span></code></pre></div>
 </section>
 <section id="compilado-de-tipos-estáticos" class="slide level2">
 <h2>Compilado de tipos estáticos</h2>
 <p>El compilador tiene mecanismos para saber si una expresión tiene el tipo correcto, <em>durante la compilación</em>:</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode cpp"><code class="sourceCode cpp"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> suma(<span class="dt">int</span> x, <span class="dt">int</span> y) { <span class="cf">return</span> x + y; } </span>
+<div class="sourceCode" id="cb3"><pre class="sourceCode cpp"><code class="sourceCode cpp"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> suma<span class="op">(</span><span class="dt">int</span> x<span class="op">,</span> <span class="dt">int</span> y<span class="op">)</span> <span class="op">{</span> <span class="cf">return</span> x <span class="op">+</span> y<span class="op">;</span> <span class="op">}</span> </span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>suma(<span class="dv">4</span>, <span class="st">&quot;juan&quot;</span>); <span class="co">// el compilador lanza un error</span></span></code></pre></div>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>suma<span class="op">(</span><span class="dv">4</span><span class="op">,</span> <span class="st">&quot;juan&quot;</span><span class="op">);</span> <span class="co">// el compilador lanza un error</span></span></code></pre></div>
 </section>
 <section id="tipado-dinámico" class="slide level2">
 <h2>Tipado dinámico</h2>
 <p>Los lenguajes de tipado dinámico, por el contrario, no tienen compiladores que comprueben el tipo</p>
 <p>Así que la corrección será comprobado más tarde, <em>durante la ejecución</em></p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">suma</span>(x<span class="op">,</span> y) { <span class="cf">return</span> x <span class="op">+</span> y<span class="op">;</span> } </span>
+<div class="sourceCode" id="cb4"><pre class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">resta</span>(x<span class="op">,</span> y) { <span class="cf">return</span> x <span class="op">-</span> y<span class="op">;</span> } </span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="fu">suma</span>(<span class="dv">4</span><span class="op">,</span> <span class="st">&quot;juan&quot;</span>)<span class="op">;</span> <span class="co">// el intérprete no da error hasta que esto no se ejecuta</span></span></code></pre></div>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="fu">resta</span>(<span class="dv">4</span><span class="op">,</span> <span class="st">&quot;juan&quot;</span>)<span class="op">;</span> <span class="co">// el intérprete no da error hasta que esto no se ejecuta</span></span></code></pre></div>
 </section></section>
 <section>
 <section id="javascript" class="title-slide slide level1">
@@ -206,6 +218,9 @@
 <h2>JavaScript en los navegadores</h2>
 <p>Casi todos los navegadores “modernos” tienen dentro una máquina virtual que ejecuta JavaScript</p>
 <p>Además, tienen un API llamado DOM (<em>Document Object Model</em>) que permite acceder a las partes del documento (por ejemplo, acceder a un párrafo o imagen de una página web)</p>
+<!-- Prueba con el navegador para ver el acceso al DOM:
+document.getElementsByTagName("h2").forEach((item) => item.style.color = "red")
+ -->
 </section>
 <section id="javascript-en-el-mundo-real" class="slide level2">
 <h2>JavaScript en el mundo real</h2>
@@ -213,9 +228,9 @@
 <ul>
 <li>Videojuegos (Phaser)</li>
 <li>IDEs (Construct, VSCode)</li>
-<li>Gmail</li>
-<li>Google Calendar</li>
-<li>Facebook</li>
+<li>Gmail, Calendar…</li>
+<li>Herramientas online: <a href="https://ledoux.itch.io/bitsy">Bitsy</a>, <a href="https://www.piskelapp.com/p/create/sprite">Piskel</a>, <a href="https://sfbgames.itch.io/chiptone">Chiptone</a>, <a href="https://www.codeandweb.com/free-sprite-sheet-packer">Spritesheet Packer</a>…</li>
+<li>Facebook, Instagram</li>
 <li>Scripting</li>
 <li><em>Servidores</em></li>
 </ul>
@@ -229,7 +244,7 @@
 <h2>En el navegador</h2>
 <p>A lo largo del curso, escribiremos JavaScript que se ejecutará dentro del navegador</p>
 <p>Porque <strong>el navegador tiene incluido un intérprete de Javascript</strong></p>
-<p>Pero hay muchos intérpretes que sea capaz de entender JavaScript, y <strong>algunos no son parte de un navegador</strong></p>
+<p>Pero hay otros intérpretes que son capaces de interpretar JavaScript y <strong>algunos no son parte de un navegador</strong></p>
 </section>
 <section id="node.js" class="slide level2">
 <h2>Node.js</h2>
@@ -253,18 +268,18 @@
 <p><code>Node.js</code> se puede usar desde línea de comandos:</p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="ex">node</span> script.js</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Pues no, vale 6. </span></span></code></pre></div>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Ejecuta el contenido de script.js</span></span></code></pre></div>
 </section>
 <section class="slide level2">
 
 <p>También lo podemos usar como un <a href="https://es.wikipedia.org/wiki/REPL">REPL</a>:</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>➜ <span class="ex">node</span></span>
+<div class="sourceCode" id="cb7"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="ex">➜</span> node</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="ex">Welcome</span> to Node.js v12.8.1.</span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="ex">Type</span> <span class="st">&quot;.help&quot;</span> for more information.</span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="op">&gt;</span> <span class="ex">console.log</span>(<span class="st">&quot;Probando&quot;</span>)</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="op">&gt;</span> console.log<span class="kw">(</span><span class="st">&quot;Probando&quot;</span><span class="kw">)</span></span>
 <span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="ex">Probando</span></span>
 <span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a><span class="ex">undefined</span></span>
-<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a><span class="op">&gt;</span> <span class="ex">2</span> + 5</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a><span class="op">&gt;</span> 2 <span class="ex">+</span> 5</span>
 <span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a><span class="ex">7</span></span></code></pre></div>
 </section></section>
     </div>
@@ -272,7 +287,7 @@
 
   <script src="../reveal.js/dist/reveal.js"></script>
 
-  // reveal.js plugins
+  <!-- reveal.js plugins -->
   <script src="../reveal.js/plugin/notes/notes.js"></script>
   <script src="../reveal.js/plugin/search/search.js"></script>
   <script src="../reveal.js/plugin/zoom/zoom.js"></script>
@@ -282,12 +297,145 @@
       // Full list of configuration options available at:
       // https://revealjs.com/config/
       Reveal.initialize({
+        // Display controls in the bottom right corner
+        controls: true,
+
+        // Help the user learn the controls by providing hints, for example by
+        // bouncing the down arrow when they first encounter a vertical slide
+        controlsTutorial: true,
+
+        // Determines where controls appear, "edges" or "bottom-right"
+        controlsLayout: 'bottom-right',
+
+        // Visibility rule for backwards navigation arrows; "faded", "hidden"
+        // or "visible"
+        controlsBackArrows: 'faded',
+
         // Display a presentation progress bar
         progress: true,
+
         // Display the page number of the current slide
         slideNumber: true,
+
+        // 'all', 'print', or 'speaker'
+        showSlideNumber: 'all',
+
+        // Add the current slide number to the URL hash so that reloading the
+        // page/copying the URL will return you to the same slide
+        hash: false,
+
+        // Start with 1 for the hash rather than 0
+        hashOneBasedIndex: false,
+
+        // Flags if we should monitor the hash and change slides accordingly
+        respondToHashChanges: true,
+
         // Push each slide change to the browser history
-        history: true,
+        history: false,
+
+        // Enable keyboard shortcuts for navigation
+        keyboard: true,
+
+        // Enable the slide overview mode
+        overview: true,
+
+        // Disables the default reveal.js slide layout (scaling and centering)
+        // so that you can use custom CSS layout
+        disableLayout: false,
+
+        // Vertical centering of slides
+        center: true,
+
+        // Enables touch navigation on devices with touch input
+        touch: true,
+
+        // Loop the presentation
+        loop: false,
+
+        // Change the presentation direction to be RTL
+        rtl: false,
+
+        // see https://revealjs.com/vertical-slides/#navigation-mode
+        navigationMode: 'default',
+
+        // Randomizes the order of slides each time the presentation loads
+        shuffle: false,
+
+        // Turns fragments on and off globally
+        fragments: true,
+
+        // Flags whether to include the current fragment in the URL,
+        // so that reloading brings you to the same fragment position
+        fragmentInURL: true,
+
+        // Flags if the presentation is running in an embedded mode,
+        // i.e. contained within a limited portion of the screen
+        embedded: false,
+
+        // Flags if we should show a help overlay when the questionmark
+        // key is pressed
+        help: true,
+
+        // Flags if it should be possible to pause the presentation (blackout)
+        pause: true,
+
+        // Flags if speaker notes should be visible to all viewers
+        showNotes: false,
+
+        // Global override for autoplaying embedded media (null/true/false)
+        autoPlayMedia: null,
+
+        // Global override for preloading lazy-loaded iframes (null/true/false)
+        preloadIframes: null,
+
+        // Number of milliseconds between automatically proceeding to the
+        // next slide, disabled when set to 0, this value can be overwritten
+        // by using a data-autoslide attribute on your slides
+        autoSlide: 0,
+
+        // Stop auto-sliding after user input
+        autoSlideStoppable: true,
+
+        // Use this method for navigation when auto-sliding
+        autoSlideMethod: null,
+
+        // Specify the average time in seconds that you think you will spend
+        // presenting each slide. This is used to show a pacing timer in the
+        // speaker view
+        defaultTiming: null,
+
+        // Enable slide navigation via mouse wheel
+        mouseWheel: false,
+
+        // The display mode that will be used to show slides
+        display: 'block',
+
+        // Hide cursor if inactive
+        hideInactiveCursor: true,
+
+        // Time before the cursor is hidden (in ms)
+        hideCursorTime: 5000,
+
+        // Opens links in an iframe preview overlay
+        previewLinks: false,
+
+        // Transition style (none/fade/slide/convex/concave/zoom)
+        transition: 'slide',
+
+        // Transition speed (default/fast/slow)
+        transitionSpeed: 'default',
+
+        // Transition style for full page slide backgrounds
+        // (none/fade/slide/convex/concave/zoom)
+        backgroundTransition: 'fade',
+
+        // Number of slides away from the current that are visible
+        viewDistance: 3,
+
+        // Number of slides away from the current that are visible on mobile
+        // devices. It is advisable to set this to a lower number than
+        // viewDistance in order to save resources.
+        mobileViewDistance: 2,
 
         // reveal.js plugins
         plugins: [

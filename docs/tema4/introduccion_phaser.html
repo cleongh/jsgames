@@ -19,6 +19,7 @@
     pre > code.sourceCode { white-space: pre; position: relative; }
     pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
     pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
     code.sourceCode > span { color: inherit; text-decoration: inherit; }
     div.sourceCode { margin: 1em 0; }
     pre.sourceCode { margin: 0; }
@@ -104,7 +105,7 @@
 <section id="game" class="slide level2">
 <h2>Game</h2>
 <p>El objeto principal de Phaser es un objeto JavaScript llamado <code class="sourceCode javascript">Game</code></p>
-<p>Dentro de un <em>juego</em> hay <em>escenas</em>, y dentro de <em>escenas</em>, <em>objetos</em> (que son los que darán lógica y representación al juego)</p>
+<p>Dentro de un <em>juego</em> (<code class="sourceCode javascript">Game</code>) hay <em>escenas</em> (<code class="sourceCode javascript">Scene</code>), y dentro de <em>escenas</em>, <em>objetos</em> (<code class="sourceCode javascript">GameObject</code>), que son los que darán lógica y representación al juego</p>
 </section>
 <section id="escenas-en-phaser" class="slide level2">
 <h2>Escenas en Phaser</h2>
@@ -131,6 +132,7 @@
 <h2>Métodos básicos de una escena</h2>
 <p>El motor llama a estos métodos automáticamente:</p>
 <ul>
+<li><code class="sourceCode javascript">init</code>: se ejecuta cuando se carga la escena. Aquí se pueden pasar datos entre escenas.</li>
 <li><code class="sourceCode javascript">preload</code>: aquí hay que cargar los recursos antes de que sean usados.</li>
 <li><code class="sourceCode javascript">create</code>: una vez que la clase está instanciada y el motor está a punto, se llama a este método para inicializar.</li>
 <li><code class="sourceCode javascript"><span class="fu">update</span>(time<span class="op">,</span> delta)</code>: se llama cada ciclo de juego, para modificar el estado.</li>
@@ -138,7 +140,7 @@
 </section>
 <section class="slide level2">
 
-<p>Además, Phaser proporciona una serie de propiedades que podemos utilizar en nuestro juego, mayoritariamente, estas propiedades son formas de acceder a los subsistemas de Phaser</p>
+<p>Además, Phaser proporciona una serie de propiedades que podemos utilizar en nuestro juego. Mayoritariamente, estas propiedades son formas de acceder a los subsistemas de Phaser</p>
 </section>
 <section id="algunos-subsistemas" class="slide level2">
 <h2>Algunos subsistemas</h2>
@@ -153,6 +155,11 @@
 <li><code class="sourceCode javascript">time</code>: el manager de tiempo</li>
 <li><code class="sourceCode javascript">physics</code>: el sistema de físicas</li>
 </ul>
+</section>
+<section id="utilidades-matemáticas" class="slide level2">
+<h2>Utilidades matemáticas</h2>
+<p><a href="https://newdocs.phaser.io/docs/3.55.2/Phaser.Math"><code class="sourceCode javascript">Phaser<span class="op">.</span><span class="at">Math</span></code></a> contiene métodos que ayudan a realizar ciertas operaciones matemáticas típicas de un motor de videojuegos</p>
+<p>Además, tiene un <a href="https://newdocs.phaser.io/docs/3.55.2/Phaser.Math.RandomDataGenerator">generador de números aleatorios</a> muy útil, accesible a través de <code class="sourceCode javascript">Phaser<span class="op">.</span><span class="at">Math</span><span class="op">.</span><span class="at">RND</span></code></p>
 </section></section>
 <section>
 <section id="crear-un-juego-en-phaser" class="title-slide slide level1">
@@ -169,11 +176,12 @@
 <span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>  <span class="dt">scene</span><span class="op">:</span> [ClaseEscenaInicial<span class="op">,</span> ClaseEscenaNivel1]</span>
 <span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>})</span></code></pre></div>
 <p>Esto crea un <code class="sourceCode html"><span class="kw">&lt;canvas&gt;</span></code> al final de la página</p>
+<p><small>En realidad, podemos crearlo <a href="https://codepen.io/gjimenezucm/pen/bGRPRYz">de una manera más sencilla</a></small></p>
 </section>
 <section class="slide level2">
 
 <p>Si queremos usar nuestro propio <code class="sourceCode html"><span class="kw">&lt;canvas&gt;</span></code>:</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode html"><code class="sourceCode html"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;canvas</span><span class="ot"> id=</span><span class="st">&quot;juego&quot;</span><span class="kw">&gt;&lt;/canvas&gt;</span></span>
+<div class="sourceCode" id="cb2"><pre class="sourceCode html"><code class="sourceCode html"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;canvas</span> <span class="er">id</span><span class="ot">=</span><span class="st">&quot;juego&quot;</span><span class="kw">&gt;&lt;/canvas&gt;</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;script&gt;</span></span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="kw">new</span> Phaser<span class="op">.</span><span class="fu">Game</span>({</span>
 <span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  <span class="dt">type</span><span class="op">:</span> Phaser<span class="op">.</span><span class="at">CANVAS</span><span class="op">,</span></span>
@@ -189,15 +197,31 @@
 <p>Si queremos que el <code class="sourceCode html"><span class="kw">&lt;canvas&gt;</span></code> tenga el foco, lo hacemos con <a href="https://developer.mozilla.org/en-US/docs/Web/API/HTMLOrForeignElement/focus"><code class="sourceCode javascript"><span class="fu">focus</span>()</code></a>:</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode html"><code class="sourceCode html"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;script&gt;</span><span class="bu">document</span><span class="op">.</span><span class="fu">getElementById</span>(<span class="st">&#39;juego&#39;</span>)<span class="op">.</span><span class="fu">focus</span>()<span class="kw">&lt;/script&gt;</span></span></code></pre></div>
 </section>
-<section id="ejemplo-básico-de-un-juego-con-phaser" class="slide level2">
-<h2>Ejemplo básico de un juego con Phaser</h2>
-<p><a href="https://cleongh.github.io/phasertemplate/" class="uri">https://cleongh.github.io/phasertemplate/</a></p>
-<p><small>Código en <a href="https://github.com/cleongh/phasertemplate" class="uri">https://github.com/cleongh/phasertemplate</a></small></p>
+<section class="slide level2">
+
+<!-- ## Ejemplo básico de un juego con Phaser
+
+
+<https://cleongh.github.io/phasertemplate/>
+
+<small>Código en <https://github.com/cleongh/phasertemplate></small>
+
+
+--- -->
 </section>
 <section id="un-juego-sencillo-y-explicado-con-phaser" class="slide level2">
 <h2>Un juego sencillo (y explicado) con Phaser</h2>
-<p><a href="https://cleongh.github.io/simplephasergame/" class="uri">https://cleongh.github.io/simplephasergame/</a></p>
-<p><small>Código en <a href="https://github.com/cleongh/simplephasergame" class="uri">https://github.com/cleongh/simplephasergame</a></small></p>
+<p><a href="https://gjimenezucm.github.io/simplephasergame/" class="uri">https://gjimenezucm.github.io/simplephasergame/</a></p>
+<p><small>Código en <a href="https://github.com/gjimenezUCM/simplephasergame" class="uri">https://github.com/gjimenezUCM/simplephasergame</a></small></p>
+</section>
+<section id="documentación" class="slide level2">
+<h2>Documentación</h2>
+<ul>
+<li><a href="https://photonstorm.github.io/phaser3-docs/index.html">Documentación de Phaser 3</a>: Acceder desde la barra de menú en la parte superior</li>
+<li><a href="https://newdocs.phaser.io/docs/3.55.2/">Nuevo sistema de documentación de Phaser</a>: Similar al anterior (en Beta)</li>
+<li><a href="https://phaser.io/examples/v3">Ejemplos de Phaser 3</a></li>
+<li><a href="https://rexrainbow.github.io/phaser3-rex-notes/docs/site/index.html">Notes of Phaser 3</a></li>
+</ul>
 </section></section>
 <section>
 <section id="localización-de-los-recursos" class="title-slide slide level1">
@@ -229,8 +253,9 @@
 </section>
 <section id="urls-relativas" class="slide level2">
 <h2>URLs relativas</h2>
-<p>El directorio especial <code>../</code> indica el directorio padre del que se lanzó la aplicación. El directorio <code>./</code> indica el directorio de lanzamiento de la aplicación</p>
 <p>En una web, <code>/</code> es la raíz del sitio</p>
+<p>El directorio especial <code>../</code> indica el directorio padre al del fichero actual.</p>
+<p>El directorio <code>./</code> indica el directorio del fichero actual</p>
 <ul>
 <li><code>./ejemplo/ruta</code></li>
 <li><code>../otro_hijo/ruta/musica.ogg</code></li>
@@ -240,10 +265,10 @@
 <section class="slide level2">
 
 <p>Cuando servimos con <code>npx live-server</code>, se sirve <em>a partir del directorio en el que estamos, <strong>nunca rutas por encima</strong></em></p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>$ <span class="bu">pwd</span></span>
+<div class="sourceCode" id="cb4"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> pwd</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="ex">/home/usuario/misarchivos</span></span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>$ <span class="bu">cd</span> docs</span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>$ <span class="ex">npx</span> live-server # <span class="kw">`</span><span class="ex">localhost</span><span class="kw">`</span> equivale a <span class="kw">`</span><span class="ex">docs/</span><span class="kw">`</span></span></code></pre></div>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> cd docs</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> npx live-server <span class="co"># `localhost` equivale a `docs/`</span></span></code></pre></div>
 <p>En el caso anterior, no puedo ir a una URL <code class="sourceCode javascript"><span class="st">&#39;../anterior.png&#39;</span></code> que esté en <code>misarchivos</code></p>
 </section></section>
 <section>
@@ -254,24 +279,26 @@
 <section id="cargar" class="slide level2">
 <h2>Cargar</h2>
 <p>Se le añade una <em>key</em> (clave o nombre) al recurso para poder identificarlo</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode js"><code class="sourceCode javascript"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">preload</span>() {</span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">this</span><span class="op">.</span><span class="at">load</span><span class="op">.</span><span class="fu">image</span>(<span class="st">&#39;phaser&#39;</span><span class="op">,</span> <span class="st">&#39;sprites/phaser-dude.png&#39;</span>)<span class="op">;</span></span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>    <span class="kw">this</span><span class="op">.</span><span class="at">load</span><span class="op">.</span><span class="fu">image</span>(<span class="st">&#39;platform&#39;</span><span class="op">,</span> <span class="st">&#39;sprites/platform.png&#39;</span>)<span class="op">;</span></span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode js"><code class="sourceCode javascript"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co">// this es un objeto Scene</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">preload</span>() {</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>    <span class="co">// Para cargar desde el sitio de Phaser</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>    <span class="kw">this</span><span class="op">.</span><span class="at">load</span><span class="op">.</span><span class="fu">setBaseURL</span>(<span class="st">&quot;https://examples.phaser.io/&quot;</span>)<span class="op">;</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>    <span class="kw">this</span><span class="op">.</span><span class="at">load</span><span class="op">.</span><span class="fu">image</span>(<span class="st">&#39;player&#39;</span><span class="op">,</span> <span class="st">&#39;assets/sprites/phaser-dude.png&#39;</span>)<span class="op">;</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>    <span class="kw">this</span><span class="op">.</span><span class="at">load</span><span class="op">.</span><span class="fu">image</span>(<span class="st">&#39;platform&#39;</span><span class="op">,</span> <span class="st">&#39;assets/sprites/platform.png&#39;</span>)<span class="op">;</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
 </section>
 <section class="slide level2">
 
 <p>Podemos cargar diferentes recursos como: imágenes, archivos JSON, atlas de texturas, video, sonido, tilemaps…</p>
-</section></section>
-<section>
-<section id="liberación-de-recursos" class="title-slide slide level1">
-<h1>Liberación de recursos</h1>
-
+<p>Las rutas son <em>relativas</em> al <code>index.html</code> (aunque se pueden modificar con los métodos <a href="https://newdocs.phaser.io/docs/3.55.1/Phaser.Loader.LoaderPlugin#setPath"><code>setPath</code></a> y <a href="https://newdocs.phaser.io/docs/3.55.1/Phaser.Loader.LoaderPlugin#setBaseURL"><code>setBaseUrl</code></a> del subsistema de carga de recursos)</p>
+</section>
+<section id="liberación-de-recursos" class="slide level2">
+<h2>Liberación de recursos</h2>
 </section>
 <section class="slide level2">
 
 <p>Si cambiamos de escena y la desactivamos, es muy probable que haya recursos que ya no utilizaremos nunca</p>
-<p>En este caso podemos eliminarlos de la caché</p>
+<p>En este caso podemos eliminarlos de la <a href="https://newdocs.phaser.io/docs/3.55.1/Phaser.Game#cache">caché de <code>Game</code></a></p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode js"><code class="sourceCode javascript"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>image1<span class="op">.</span><span class="fu">destroy</span>()<span class="op">;</span></span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>sound4<span class="op">.</span><span class="fu">destroy</span>()<span class="op">;</span></span></code></pre></div>
 <!-- Aqué el contexto es muy relevante puesto que no hemos explicado la caché
@@ -285,12 +312,13 @@ Hay que indicar que `cache` es una propiedad del objeto juego. -->
 <section class="slide level2">
 
 <p>Son las imágenes 2D que sirven para visualizar los objetos en un juego 2D. En Phaser se instancian así:</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode js"><code class="sourceCode javascript"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>player <span class="op">=</span> scene<span class="op">.</span><span class="at">add</span><span class="op">.</span><span class="fu">sprite</span>(<span class="dv">100</span><span class="op">,</span> <span class="dv">200</span><span class="op">,</span> <span class="st">&#39;player&#39;</span>)<span class="op">;</span></span></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode js"><code class="sourceCode javascript"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co">// this es una Scene</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>player <span class="op">=</span> <span class="kw">this</span><span class="op">.</span><span class="at">add</span><span class="op">.</span><span class="fu">sprite</span>(<span class="dv">100</span><span class="op">,</span> <span class="dv">200</span><span class="op">,</span> <span class="st">&#39;player&#39;</span>)<span class="op">;</span></span></code></pre></div>
 </section>
 <section class="slide level2">
 
 <figure>
-<img data-src="mariosprite.jpg" style="height:75.0%" alt="player" /><figcaption aria-hidden="true"><code class="sourceCode javascript">player</code></figcaption>
+<img data-src="https://examples.phaser.io/assets/sprites/phaser-dude.png" style="width:10.0%" alt="player" /><figcaption aria-hidden="true"><code class="sourceCode javascript">player</code></figcaption>
 </figure>
 <p>Hay que usar la clave que se le puso en la carga. El objeto, obviamente, <em>debe estar cargado memoria</em> con <code class="sourceCode javascript">scene<span class="op">.</span><span class="at">load</span></code></p>
 </section></section>
@@ -316,21 +344,27 @@ Hay que indicar que `cache` es una propiedad del objeto juego. -->
 <section class="slide level2">
 
 <p>Sirve también para crear animaciones por frames</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode js"><code class="sourceCode javascript"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">preload</span>() {</span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">this</span><span class="op">.</span><span class="at">load</span><span class="op">.</span><span class="fu">spritesheet</span>(</span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>      <span class="st">&#39;keyspritesheet&#39;</span><span class="op">,</span> <span class="st">&#39;keyspritesheet.png&#39;</span><span class="op">,</span> { <span class="dt">frameWidth</span><span class="op">:</span> <span class="dv">64</span><span class="op">,</span> <span class="dt">frameHeight</span><span class="op">:</span> <span class="dv">64</span> })<span class="op">;</span></span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">create</span>() {</span>
-<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>    <span class="kw">this</span><span class="op">.</span><span class="at">add</span><span class="op">.</span><span class="fu">sprite</span>(<span class="dv">300</span><span class="op">,</span> <span class="dv">200</span><span class="op">,</span> <span class="st">&#39;keyspritesheet&#39;</span>)<span class="op">;</span></span>
-<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>    <span class="kw">this</span><span class="op">.</span><span class="at">scene</span><span class="op">.</span><span class="at">anims</span><span class="op">.</span><span class="fu">create</span>({</span>
-<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>      <span class="dt">key</span><span class="op">:</span> <span class="st">&#39;standing_sprite&#39;</span><span class="op">,</span></span>
-<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>      <span class="dt">frames</span><span class="op">:</span> <span class="kw">this</span><span class="op">.</span><span class="at">scene</span><span class="op">.</span><span class="at">anims</span><span class="op">.</span><span class="fu">generateFrameNumbers</span>(<span class="st">&#39;keyspritesheet&#39;</span><span class="op">,</span> { <span class="dt">start</span><span class="op">:</span> <span class="dv">0</span><span class="op">,</span> <span class="dt">end</span><span class="op">:</span> <span class="dv">4</span> })<span class="op">,</span></span>
-<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>      <span class="dt">frameRate</span><span class="op">:</span> <span class="dv">2</span><span class="op">,</span></span>
-<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>      <span class="dt">repeat</span><span class="op">:</span> <span class="op">-</span><span class="dv">1</span></span>
-<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>    })<span class="op">;</span></span>
-<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode js"><code class="sourceCode javascript"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co">// this es un objeto scene</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">preload</span>() {</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>    <span class="co">// Recordad: solo para cargar desde el sitio de Phaser</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>    <span class="kw">this</span><span class="op">.</span><span class="at">load</span><span class="op">.</span><span class="fu">setBaseURL</span>(<span class="st">&quot;https://examples.phaser.io/&quot;</span>)<span class="op">;</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>    <span class="kw">this</span><span class="op">.</span><span class="at">load</span><span class="op">.</span><span class="fu">spritesheet</span>(<span class="st">&#39;mummy_spritesheet&#39;</span><span class="op">,</span> </span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>                          <span class="st">&#39;assets/sprites/metalslug_mummy37x45.png&#39;</span><span class="op">,</span></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>                          { <span class="dt">frameWidth</span><span class="op">:</span> <span class="dv">37</span><span class="op">,</span> <span class="dt">frameHeight</span><span class="op">:</span> <span class="dv">45</span><span class="op">,</span> <span class="dt">endFrame</span><span class="op">:</span> <span class="dv">17</span> })<span class="op">;</span></span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">create</span>() {</span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>    <span class="kw">let</span> mummy <span class="op">=</span> <span class="kw">this</span><span class="op">.</span><span class="at">add</span><span class="op">.</span><span class="fu">sprite</span>(<span class="dv">300</span><span class="op">,</span> <span class="dv">200</span><span class="op">,</span> <span class="st">&#39;mummy_spritesheet&#39;</span>)<span class="op">;</span></span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>    <span class="kw">this</span><span class="op">.</span><span class="at">anims</span><span class="op">.</span><span class="fu">create</span>({</span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>      <span class="dt">key</span><span class="op">:</span> <span class="st">&#39;walking&#39;</span><span class="op">,</span></span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a>      <span class="dt">frames</span><span class="op">:</span> <span class="kw">this</span><span class="op">.</span><span class="at">anims</span><span class="op">.</span><span class="fu">generateFrameNumbers</span>(<span class="st">&#39;mummy_spritesheet&#39;</span><span class="op">,</span> { <span class="dt">start</span><span class="op">:</span> <span class="dv">0</span><span class="op">,</span> <span class="dt">end</span><span class="op">:</span> <span class="dv">16</span> })<span class="op">,</span></span>
+<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a>      <span class="dt">frameRate</span><span class="op">:</span> <span class="dv">10</span><span class="op">,</span></span>
+<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a>      <span class="dt">repeat</span><span class="op">:</span> <span class="op">-</span><span class="dv">1</span></span>
+<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a>    })<span class="op">;</span></span>
+<span id="cb8-19"><a href="#cb8-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-20"><a href="#cb8-20" aria-hidden="true" tabindex="-1"></a>    mummy<span class="op">.</span><span class="fu">play</span>(<span class="st">&#39;walking&#39;</span>)<span class="op">;</span></span>
+<span id="cb8-21"><a href="#cb8-21" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
 </section>
 <section class="slide level2">
 
@@ -343,7 +377,7 @@ Hay que indicar que `cache` es una propiedad del objeto juego. -->
 
   <script src="../reveal.js/dist/reveal.js"></script>
 
-  // reveal.js plugins
+  <!-- reveal.js plugins -->
   <script src="../reveal.js/plugin/notes/notes.js"></script>
   <script src="../reveal.js/plugin/search/search.js"></script>
   <script src="../reveal.js/plugin/zoom/zoom.js"></script>
@@ -353,12 +387,145 @@ Hay que indicar que `cache` es una propiedad del objeto juego. -->
       // Full list of configuration options available at:
       // https://revealjs.com/config/
       Reveal.initialize({
+        // Display controls in the bottom right corner
+        controls: true,
+
+        // Help the user learn the controls by providing hints, for example by
+        // bouncing the down arrow when they first encounter a vertical slide
+        controlsTutorial: true,
+
+        // Determines where controls appear, "edges" or "bottom-right"
+        controlsLayout: 'bottom-right',
+
+        // Visibility rule for backwards navigation arrows; "faded", "hidden"
+        // or "visible"
+        controlsBackArrows: 'faded',
+
         // Display a presentation progress bar
         progress: true,
+
         // Display the page number of the current slide
         slideNumber: true,
+
+        // 'all', 'print', or 'speaker'
+        showSlideNumber: 'all',
+
+        // Add the current slide number to the URL hash so that reloading the
+        // page/copying the URL will return you to the same slide
+        hash: true,
+
+        // Start with 1 for the hash rather than 0
+        hashOneBasedIndex: false,
+
+        // Flags if we should monitor the hash and change slides accordingly
+        respondToHashChanges: true,
+
         // Push each slide change to the browser history
         history: true,
+
+        // Enable keyboard shortcuts for navigation
+        keyboard: true,
+
+        // Enable the slide overview mode
+        overview: true,
+
+        // Disables the default reveal.js slide layout (scaling and centering)
+        // so that you can use custom CSS layout
+        disableLayout: false,
+
+        // Vertical centering of slides
+        center: true,
+
+        // Enables touch navigation on devices with touch input
+        touch: true,
+
+        // Loop the presentation
+        loop: false,
+
+        // Change the presentation direction to be RTL
+        rtl: false,
+
+        // see https://revealjs.com/vertical-slides/#navigation-mode
+        navigationMode: 'default',
+
+        // Randomizes the order of slides each time the presentation loads
+        shuffle: false,
+
+        // Turns fragments on and off globally
+        fragments: true,
+
+        // Flags whether to include the current fragment in the URL,
+        // so that reloading brings you to the same fragment position
+        fragmentInURL: true,
+
+        // Flags if the presentation is running in an embedded mode,
+        // i.e. contained within a limited portion of the screen
+        embedded: false,
+
+        // Flags if we should show a help overlay when the questionmark
+        // key is pressed
+        help: true,
+
+        // Flags if it should be possible to pause the presentation (blackout)
+        pause: true,
+
+        // Flags if speaker notes should be visible to all viewers
+        showNotes: false,
+
+        // Global override for autoplaying embedded media (null/true/false)
+        autoPlayMedia: null,
+
+        // Global override for preloading lazy-loaded iframes (null/true/false)
+        preloadIframes: null,
+
+        // Number of milliseconds between automatically proceeding to the
+        // next slide, disabled when set to 0, this value can be overwritten
+        // by using a data-autoslide attribute on your slides
+        autoSlide: 0,
+
+        // Stop auto-sliding after user input
+        autoSlideStoppable: true,
+
+        // Use this method for navigation when auto-sliding
+        autoSlideMethod: null,
+
+        // Specify the average time in seconds that you think you will spend
+        // presenting each slide. This is used to show a pacing timer in the
+        // speaker view
+        defaultTiming: null,
+
+        // Enable slide navigation via mouse wheel
+        mouseWheel: false,
+
+        // The display mode that will be used to show slides
+        display: 'block',
+
+        // Hide cursor if inactive
+        hideInactiveCursor: true,
+
+        // Time before the cursor is hidden (in ms)
+        hideCursorTime: 5000,
+
+        // Opens links in an iframe preview overlay
+        previewLinks: false,
+
+        // Transition style (none/fade/slide/convex/concave/zoom)
+        transition: 'slide',
+
+        // Transition speed (default/fast/slow)
+        transitionSpeed: 'default',
+
+        // Transition style for full page slide backgrounds
+        // (none/fade/slide/convex/concave/zoom)
+        backgroundTransition: 'fade',
+
+        // Number of slides away from the current that are visible
+        viewDistance: 3,
+
+        // Number of slides away from the current that are visible on mobile
+        // devices. It is advisable to set this to a lower number than
+        // viewDistance in order to save resources.
+        mobileViewDistance: 2,
 
         // reveal.js plugins
         plugins: [

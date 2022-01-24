@@ -9,7 +9,7 @@ title: Mapas en Phaser con Tiled
 
 ## Qué es un tile
 
-Un *tile* (o baldosa) es un imagen, generalmente cuadrada, y generalmente de tamaño fijo, que se usa para dibujar un elemento en un videojuego
+Un *tile* (o baldosa) es un imagen, generalmente cuadrada y, generalmente, de tamaño fijo, que se usa para dibujar un elemento en un videojuego
 
 ---
 
@@ -18,7 +18,7 @@ Los tiles simplifican el desarrollo, ya que hacen que el mundo se considere **un
 
 ---
 
-Los tiles pueden ser usados para dibujar (por ejemplo, el mapa o el fondo), y también *para la lógica del juego* (como en los [roguelikes](https://es.wikipedia.org/wiki/Roguelike))
+Los tiles pueden ser usados para dibujar (por ejemplo, el mapa o el fondo) y también *para la lógica del juego* (como en los [roguelikes](https://es.wikipedia.org/wiki/Roguelike))
 
 ---
 
@@ -61,12 +61,12 @@ En cada "celda" se pinta un tile, generalmente extraído de un *tile set*
 
 ## Partes de un mapa de tiles
 
-Normalmente necesitamos está compuesto por:
+Normalmente está compuesto por:
 
 - un fichero de datos con la definición del tile map
     - su tamaño (ancho y alto)
     - el tamaño de las casillas (tiles)
-    - qué imagen va en cada casilla
+    - qué tile o imagen va en cada casilla
 - una hoja de sprites con todos los tiles disponibles juntos 
 
 
@@ -141,19 +141,20 @@ escena en una imagen (se carga una, se usa muchas veces)
 
 ## ¿Por qué es más eficiente?
 
-- Escena de 4096 $\times$ 1024, tiles de 64 $\times$ 64
+- Mapa de 4096 $\times$ 1024 con tiles de 64 $\times$ 64:
     - Sin tile map: 4096 $\times$ 1024 $\times$ 4B de color = **16.7 MB**
-    - Con tile map: tile map de 64 $\times$ 16, tile set de 1024 $\times$ 1024 con 16 $\times$ 16 tiles = 256 tiles
-        - Tamaño del tile map = 1024 B
-        - Tamaño del tile set = 1024 $\times$ 1024 $\times$ 4 = 4 MB
-        - Tamaño total = **4.01 MB**
+    
+    - Con tile map: tile map de 64 $\times$ 16 tiles y tile set de 1024 $\times$ 1024 con 256 tiles (16 $\times$ 16)
+      * Tamaño del tile map = 1024 $\times$ 1B
+      * Tamaño del tile set = 1024 $\times$ 1024 $\times$ 4B de color = 4 MB
+      * Tamaño total = **4.01 MB**
 
 
 ---
 
 ## Otras ventajas:
 
-- Al tener todos los tiles en la misma hoja de scripts sólo necesitamos una llamada a pintado para pintar todo el escenario
+- Al tener todos los tiles en la misma hoja de sprites sólo necesitamos una llamada a pintado para pintar todo el escenario
 - Cuando cargamos desde Internet, es fundamental reducir los tiempos de carga
 - Dibujar la escena es más sencillo, sobre todo con un editor de tiles
 - Podemos reutilizar tiles en diferentes escenarios.
@@ -244,7 +245,7 @@ Aquí establecemos:
 
 - El tamaño del patrón (tile) y el número de patrones que tendrá el nivel
 - Si queremos vista ortogonal o isométrica
-- Marcamos como *Base64 (uncompressed)* sin comprimir el formato de la capa de patrones
+- El formato de la capa de patrones para Phaser ha de ser *Base64 (uncompressed)* sin comprimir
 - *No* creamos un mapa infinito
 
 
@@ -255,7 +256,7 @@ Aquí establecemos:
 
 ---
 
-- Base ortogonal es la tradicional en los juegos 2D (visto "desde arriba")
+- Base ortogonal es la tradicional en los juegos 2D (visto "desde arriba" o "lateral")
 - Base isométrica es una vista ortogonal especial que simula el 3D sin corrección de perspectiva
     - Todos los ejes forman un ángulo de 120º. El dibujo se gira 45º para poner la esquina del escenario frente al espectador
     - La cámara se situaría en la esquina superior 
@@ -341,13 +342,22 @@ Para usar el mapa que hemos creado, *lo tenemos que exportar a JSON* (`.json`)
 
 ## Phaser 3.50
 
-En Phaser 3.50.0 cambia la API de los mapas, y se hace algo mejor (y más potente)
+A partir de Phaser 3.50.0 [cambia la API de los mapas](https://newdocs.phaser.io/docs/3.55.2/Phaser.Tilemaps.Tilemap), y se hace algo mejor (y más potente)
 
 Tened cuidado con las versiones en la documentación disponible
 
 ---
 
-## Cargar el tile map
+## TileMaps en Phaser
+
+1. Carga de archivos de datos e imágenes
+2. Creación del tilemap
+3. Asignamos las texturas a los tilesets
+4. Creación de las capas
+
+---
+
+## 1. Carga de archivos de datos e imágenes
 
 Para cargar el fichero de descripción del tile map, usamos `tilemapTiledJSON()`{.js} en `preload()`{.js}
 
@@ -376,9 +386,9 @@ this.load.image('patronesTilemap', 'images/patrones.png');
 
 ---
 
-## Crear el tile map
+## 2. Creación del tilemap
 
-Para crear un tilemap usamos el recurso cargado en la cache como *tilemap*, en el método `create()`{.js} (**no en `preload()`{.js}**)
+Para crear un tilemap usamos [el subsistema `make.tilemap`](https://newdocs.phaser.io/docs/3.55.2/Phaser.GameObjects.GameObjectCreator#tilemap) y el recurso cargado en la cache como *tilemap*, en el método `create()`{.js} (**no en `preload()`{.js}**)
 
 ```js
 this.map = this.make.tilemap({ 
@@ -390,23 +400,31 @@ this.map = this.make.tilemap({
 
 ---
 
-Una vez creado le asignamos la textura donde tenemos los tiles
+[Este objeto](https://newdocs.phaser.io/docs/3.55.2/Phaser.Tilemaps.Tilemap) tiene propiedades importantes como el ancho y el alto (en tiles y en píxels) que son útiles para establecer los límites (_bounds_) del mundo y de la cámara
+
+Así mismo, tiene métodos para convertir coordenadas del mundo en tiles y viceversa o para acceder a información de los tiles o de las capas.
+
+---
+
+## 3. Texturas de los tilesets
+
+Posteriormente creamos los tilesets, asignando las imágenes cargadas a los tileset usados en el tilemap:
 
 ```js
-const tileset1 = this.map.addTilesetImage('patrones', 'patronesTilemap');
+const tileset1 = this.map.addTilesetImage('nombreTilemap', 'claveTextura');
 ```
 
 ---
 
-La textura debe estar previamente cargada y el nombre de la textura en el mapa de tiles debe ser conocido
+La textura debe estar previamente cargada y el nombre de la textura en el mapa de tiles es conocido (está en el JSON exportado desde Tiled)
 
 ---
 
-Un mapa de tiles puede tener más de una textura asociada, por lo que hay que asignar el nombre usado en el editor al asignar al tileset al nombre de la textura cargada en la cache
+Un mapa de tiles puede tener más de una textura asociada, por lo que hay que asignar el nombre usado en el editor al asignar al tileset al nombre de la textura cargada en la cache (está en el JSON exportado desde Tiled)
 
 ---
 
-Es decir, `'patrones'`{.js} y `'patronesFondo'`{.js} son nombres de atlas en Tiled---los que están en las pestañas:
+Por ejemplo, `'patrones'`{.js} y `'patronesFondo'`{.js} son nombres de tilesets en Tiled---los que están en las pestañas:
 
 ```js
 const tileset1 = this.map.addTilesetImage('patrones', 'idImagen');
@@ -415,13 +433,15 @@ const tileset2 = this.map.addTilesetImage('patronesFondo', 'idImagen2');
 
 ---
 
-## Crear las diferentes capas
+## 4. Creación de las capas
+
+Por último, es necesario crear las capas para que el mapa se visualice.
 
 Como hemos visto, en el editor de tiles podemos crear diferentes capas o *layers*
 
-Las capas tienen entidad única, y se pueden manejar independientemente (por ejemplo, para colisiones)
-
 ---
+
+Las capas tienen entidad única y se pueden manejar independientemente (por ejemplo, para colisiones)
 
 Una capa permite diferenciar los objetos del fondo con los objetos de frente o tener diferentes fondos
 
@@ -443,9 +463,84 @@ this.foreground =
                              , [tileset1, tileset2]);
 ```
 
+# Colisiones con mapas
+
 ---
 
-## Capas de objetos
+Una parte importante, una vez que tenemos el mapa, es que los tiles tengan *propiedades físicas*
+
+---
+
+## Colisión por propiedades
+
+Por ejemplo, dada una capa (`layer`{.js}), podemos hacer que todos aquellos tiles que tengan cierta propiedad, colisionen:
+
+```js
+layer.setCollisionByProperty({ colisiona: true });
+```
+
+---
+
+## Colisión por inclusión
+
+O podemos hacer que los tiles con *id* en un rango concreto, colisionen:
+
+```js
+// así colisionarán todos los tiles de la capa 
+// asumiendo que no hay id > 999
+layer.setCollisionBetween(0, 999);
+```
+
+<small>En efecto, cada tipo de tile tiene un *id*</small>
+
+---
+
+## Colisión por exclusión
+
+```js
+// `true` es que activa la colisión
+layer.setCollisionByExclusion([93, 94, 95, 96], true);
+```
+
+---
+
+## Colisiones de Sprites con capas
+
+Aunque hayamos activado las colisiones para los tiles, *tenemos que activar `colliders` para cada entidad que lo necesite*:
+
+
+```js
+this.physics.add.collider(player, layer);
+```
+
+---
+
+También podemos eliminar un `collider` antes creado
+
+Por ejemplo, para hacer que se puedan cruzar zonas que antes no se podía:
+
+```js
+this.collider = this.physics.add.collider(
+                  this.player,
+                  room.foreground);
+// y, después
+this.collider.destroy();
+```
+
+---
+
+Los ejemplos anteriores son para *Arcade*
+
+Para que funcione la colisión con *Matter.js*, hay que poner **también**:
+
+```js
+this.matter.world.convertTilemapLayer(suelo);
+```
+
+
+# Capas de objetos
+
+---
 
 Además de los tiles que forman el escenario, también podemos poner a nuestros personajes en Tiled
 
@@ -455,28 +550,27 @@ Además de los tiles que forman el escenario, también podemos poner a nuestros 
 
 ---
 
-Después, desde Phaser, **no** crearemos capas Phaser desde las capas de objetos de Tiled, sino que crearemos `Sprite`{.js}s a partir de los objetos de la capa
+Después, desde Phaser, **no** crearemos layers de Phaser desde las capas de objetos de Tiled, sino que crearemos `Sprite`{.js}s a partir de los objetos de la capa
 
 ---
 
-Lo haremos con [`createFromObjects`{.js}](https://photonstorm.github.io/phaser3-docs/Phaser.Tilemaps.Tilemap.html#createFromObjects__anchor):
+Lo haremos con [`createFromObjects`{.js}](https://newdocs.phaser.io/docs/3.55.2/Phaser.Tilemaps.Tilemap#createFromObjects):
 
 ```js
-// con el ID de objeto
-conId1 = map.createFromObjects('nombreDeCapaObjotesEnTiled', {gid: 1})
+// con el GID de objeto
+conId1 = map.createFromObjects('nombreDeCapaObjetosEnTiled', {gid: 1})
 
 // o con el nombre del objeto (`name` en Tiled)
-players = map.createFromObjects('nombreDeCapaObjotesEnTiled', {name: 'player'})
+players = map.createFromObjects('nombreDeCapaObjetosEnTiled', {name: 'player'})
 
-// cambiar las propiedades de player después
+// players es un array por lo que podemos aplicar funciones sobre sus elementos
+// como esta que cambia la vida
 players.map(p => p.vida = 10)
 ```
 
-Phaser colocará estos `Sprite`{.js}s en el lugar apropiado
-
 ---
 
-Si no quiero `Sprite`{.js}s, puedo decirle el tipo (que tiene que heredar de `GameObject`{.js}):
+Si no quiero `Sprite`{.js}s, podemos decirle el tipo (que tiene que heredar de `GameObject`{.js}):
 
 ```js
 createFromObjects(layerName, {
@@ -484,6 +578,14 @@ createFromObjects(layerName, {
   classType: HeartContainer
 })
 ```
+
+---
+
+Phaser colocará estos `Sprite`{.js}s en el lugar apropiado
+
+Cualquier propiedad de GameObject añadida en Tiled será copiada en el GameObject creado (por ejemplo, `alpha`)
+
+Cualquier otra propiedad será añadida al [`data`](https://newdocs.phaser.io/docs/3.55.2/Phaser.Data.DataManager) del GameObject (acceso a propiedades con `getData(key)` y `setData(key, value)`)
 
 ---
 
@@ -536,7 +638,7 @@ for (const objeto of scene.mapa.getObjectLayer('capaObjetos').objects) {
 Una función para cargar:
 
 ```js
-function cargar(mapa, capa, tipo, cb) {
+function cargar(mapa, capa, tipo, callback) {
   const objetos = mapa.getObjectLayer(capa).objects.filter(x => x.type === tipo)
   for (const objeto of objetos) {
     const props = {}
@@ -545,7 +647,7 @@ function cargar(mapa, capa, tipo, cb) {
         props[name] = value
       }
     }
-    cb({ x: objeto.x, y: objeto.y, props })
+    callback({ x: objeto.x, y: objeto.y, props })
   }
 }
 ```
@@ -591,7 +693,7 @@ Sin embargo, el tamaño de página, dispositivo y pantalla en el que se ejecutar
 
 ---
 
-Phaser 3 lo pone muy fácil:
+Phaser 3 lo pone muy fácil con la [propiedad `scale`](https://newdocs.phaser.io/docs/3.55.2/Phaser.Types.Core.ScaleConfig) de la configuración:
 
 ```js
 const config = {
@@ -605,7 +707,7 @@ const config = {
 }
 ```
 
-<small>Cambiando `width`{.js} y `height`{.js}, y el tamaño del canvas, se ajusta el tamaño del juego</small>
+<small>Cambiando `width`{.js} y `height`{.js} y el tamaño del canvas, se ajusta el tamaño del juego</small>
 
 ---
 
@@ -620,7 +722,7 @@ Pero este escalado hará que los bordes de los píxeles pequeños, al agrandar, 
 
 ---
 
-Afortunadamente, Phaser sabe que adoramos el arte píxel:
+Afortunadamente, Phaser sabe que adoramos el pixelart:
 
 ```js
 const config = {
@@ -630,7 +732,7 @@ const config = {
 
 ---
 
-![Filtro de escalado para arte píxel](pixel.png){width=40%}
+![Filtro de escalado para pixelart](pixel.png){width=40%}
 
 
 
@@ -641,84 +743,10 @@ const config = {
 
 
 
-# Colisiones con mapas
-
----
-
-Una parte importante, una vez que tenemos el mapa, es que los tiles tengan *propiedades físicas*
-
----
-
-## Colisión por propiedades
-
-Por ejemplo, dada una capa (`layer`{.js}), podemos hacer que todos aquellos tiles que tengas cierta propiedad, colisionen:
-
-```js
-suelo.setCollisionByProperty({ colisiona: true });
-```
-
----
-
-## Colisión por inclusión
-
-O podemos hacer que los tiles con *id* en un rango concreto, colisionen:
-
-```js
-// así colisionarán todos los tiles de la capa 
-// asumiendo que no hay id > 99
-suelo.foreground.setCollisionBetween(0, 999);
-```
-
-<small>En efecto, cada tipo de tile tiene un *id*</small>
-
----
-
-## Colisión por exclusión
-
-```js
-// `true` es que activa la colisión
-layer.setCollisionByExclusion([93, 94, 95, 96], true);
-```
-
----
-
-## Colisiones de `Sprites`{.js} con capas
-
-Aunque hayamos activado las colisiones para los tiles, *tenemos que activar `colliders` para cada entidad que lo necesite*:
 
 
-```js
-this.physics.add.collider(player, layer);
-```
 
----
-
-También podemos eliminar un `collider` antes creado
-
-Por ejemplo, para hacer que se puedan cruzar zonas que antes no se podía:
-
-```js
-this.collider = this.physics.add.collider(
-                  this.player,
-                  room.foreground);
-// y, después
-this.collider.destroy();
-```
-
----
-
-Los ejemplos anteriores son para *Arcade*
-
-Para que funcione la colisión con *Matter.js*, hay que poner **también**:
-
-```js
-this.matter.world.convertTilemapLayer(suelo);
-```
-
----
-
-
-## Tiles que no son cuadrados
+# Tiles que no son cuadrados
 
 ---
 
@@ -749,3 +777,7 @@ Vamos a las propiedades del tileset ![icono de propiedades](iconopropiedades.png
 Cuando hagáis esto, es recomendable que se lo pongáis fácil a *Matter.js* haciendo los polígonos **convexos**
 
 Si el polígono es cóncavo, tendrá que subdividir el polígono en varios convexos, o usar una malla que tenga más coste (casco convexo)
+
+---
+
+Tenéis [varios ejemplos](https://phaser.io/examples/v3/view/tilemap/collision/matter#) del uso de [Tilemaps con Matter](https://phaser.io/examples/v3/view/tilemap/collision/matter-detect-collision-with-tile) en [la página de Phaser](https://phaser.io/examples/v3/view/tilemap/collision/matter-platformer-modify-map)

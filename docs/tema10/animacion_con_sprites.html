@@ -19,6 +19,7 @@
     pre > code.sourceCode { white-space: pre; position: relative; }
     pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
     pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
     code.sourceCode > span { color: inherit; text-decoration: inherit; }
     div.sourceCode { margin: 1em 0; }
     pre.sourceCode { margin: 0; }
@@ -115,8 +116,7 @@
 </section>
 <section class="slide level2">
 
-<p><a href="https://en.wikipedia.org/wiki/Eadweard_Muybridge">Eadweard Muybridge</a> diseñó un sistema de fotografía en el que, haciendo muchas fotos seguidas con una cámara fija, conseguía que el ojo human no pudiera distinguir los fotogramas como imágenes separadas</p>
-<p>Sino como <em>movimiento</em></p>
+<p><a href="https://en.wikipedia.org/wiki/Eadweard_Muybridge">Eadweard Muybridge</a> diseñó un sistema de fotografía en el que, haciendo muchas fotos seguidas con una cámara fija, conseguía que el ojo humano no pudiera distinguir los fotogramas como imágenes separadas <em>sino como movimiento</em></p>
 </section>
 <section class="slide level2">
 
@@ -155,12 +155,12 @@
 </section>
 <section class="slide level2">
 
-<p>Su origen es parte de las historia del videojuego</p>
-<p>Algunas de las primeras máquinas dedicadas a correr juegos tenían hardware <em>dedicado</em> para sprites</p>
+<p>Su origen es parte de la historia del videojuego</p>
+<p>Algunas de las primeras máquinas dedicadas a ejecutar juegos tenían hardware <em>dedicado</em> para sprites (aunque no es exactamente el mismo concepto que conocemos ahora)</p>
 </section>
 <section class="slide level2">
 
-<p>Por tanto, esta tecnología de sprite no realizaba cambios en RAM que se volcaban al dispositivo gráfico</p>
+<p>Esta tecnología de sprite no realizaba cambios en RAM que se volcaban al dispositivo gráfico</p>
 </section>
 <section class="slide level2">
 
@@ -436,22 +436,25 @@
 </section>
 <section id="cargar-un-spritesheet" class="slide level2">
 <h2>Cargar un spritesheet</h2>
-<p>Con <a href="https://photonstorm.github.io/phaser3-docs/Phaser.Loader.LoaderPlugin.html"><code class="sourceCode javascript">spritesheet</code></a>:</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode js"><code class="sourceCode javascript"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="kw">this</span><span class="op">.</span><span class="at">load</span><span class="op">.</span><span class="fu">spritesheet</span>(<span class="st">&#39;mummy&#39;</span><span class="op">,</span></span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>                      <span class="st">&#39;mummy.animated.png&#39;</span><span class="op">,</span></span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>                      { <span class="dt">frameWidth</span><span class="op">:</span> <span class="dv">64</span><span class="op">,</span> <span class="dt">frameHeight</span><span class="op">:</span> <span class="dv">64</span> })<span class="op">;</span></span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="kw">this</span><span class="op">.</span><span class="at">add</span><span class="op">.</span><span class="fu">sprite</span>(<span class="dv">200</span><span class="op">,</span> <span class="dv">360</span><span class="op">,</span> <span class="st">&#39;mummy&#39;</span>)<span class="op">;</span> </span></code></pre></div>
+<p>Con <a href="https://newdocs.phaser.io/docs/3.55.2/Phaser.Loader.LoaderPlugin#spritesheet"><code class="sourceCode javascript">spritesheet</code></a>:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode js"><code class="sourceCode javascript"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co">// En el preload</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="kw">this</span><span class="op">.</span><span class="at">load</span><span class="op">.</span><span class="fu">spritesheet</span>(<span class="st">&#39;mummy&#39;</span><span class="op">,</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>                      <span class="st">&#39;mummy.animated.png&#39;</span><span class="op">,</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>                      { <span class="dt">frameWidth</span><span class="op">:</span> <span class="dv">64</span><span class="op">,</span> <span class="dt">frameHeight</span><span class="op">:</span> <span class="dv">64</span> })<span class="op">;</span></span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode js"><code class="sourceCode javascript"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co">// En el create</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="kw">this</span><span class="op">.</span><span class="at">add</span><span class="op">.</span><span class="fu">sprite</span>(<span class="dv">200</span><span class="op">,</span> <span class="dv">360</span><span class="op">,</span> <span class="st">&#39;mummy&#39;</span>)<span class="op">;</span> </span></code></pre></div>
 </section>
 <section id="establecer-un-ciclo-de-animación" class="slide level2">
 <h2>Establecer un ciclo de animación</h2>
-<p>Se pueden modificar las propiedades de la animación con <a href="https://photonstorm.github.io/phaser3-docs/Phaser.Animations.AnimationManager.html"><code class="sourceCode javascript">AnimationManager</code></a></p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode js"><code class="sourceCode javascript"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co">// Como &#39;mummy&#39; es un `spritesheet`, puede identificar los frames</span></span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="kw">this</span><span class="op">.</span><span class="at">anims</span><span class="op">.</span><span class="fu">create</span>({</span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>      <span class="dt">key</span><span class="op">:</span> <span class="st">&#39;standing_mummy&#39;</span><span class="op">,</span></span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>      <span class="dt">frames</span><span class="op">:</span> <span class="kw">this</span><span class="op">.</span><span class="at">anims</span><span class="op">.</span><span class="fu">generateFrameNumbers</span>(<span class="st">&#39;mummy&#39;</span><span class="op">,</span> { <span class="dt">start</span><span class="op">:</span> <span class="dv">0</span><span class="op">,</span> <span class="dt">end</span><span class="op">:</span> <span class="dv">5</span> })<span class="op">,</span></span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>      <span class="dt">frameRate</span><span class="op">:</span> <span class="dv">2</span><span class="op">,</span></span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>      <span class="dt">repeat</span><span class="op">:</span> <span class="op">-</span><span class="dv">1</span></span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>    })<span class="op">;</span></span></code></pre></div>
+<p>Se pueden crear ciclos de animación con el <a href="https://newdocs.phaser.io/docs/3.55.2/Phaser.Animations.AnimationManager"><code class="sourceCode javascript">AnimationManager</code></a></p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode js"><code class="sourceCode javascript"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co">// Como &#39;mummy&#39; es un spritesheet, puede identificar los frames</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="co">// this es Scene</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="kw">this</span><span class="op">.</span><span class="at">anims</span><span class="op">.</span><span class="fu">create</span>({</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>      <span class="dt">key</span><span class="op">:</span> <span class="st">&#39;standing_mummy&#39;</span><span class="op">,</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>      <span class="dt">frames</span><span class="op">:</span> <span class="kw">this</span><span class="op">.</span><span class="at">anims</span><span class="op">.</span><span class="fu">generateFrameNumbers</span>(<span class="st">&#39;mummy&#39;</span><span class="op">,</span> { <span class="dt">start</span><span class="op">:</span> <span class="dv">0</span><span class="op">,</span> <span class="dt">end</span><span class="op">:</span> <span class="dv">5</span> })<span class="op">,</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>      <span class="dt">frameRate</span><span class="op">:</span> <span class="dv">2</span><span class="op">,</span> <span class="co">// Velocidad de la animación</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>      <span class="dt">repeat</span><span class="op">:</span> <span class="op">-</span><span class="dv">1</span>    <span class="co">// Animación en bucle</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>    })<span class="op">;</span></span></code></pre></div>
 </section>
 <section id="comenzar-y-detener-la-animación" class="slide level2">
 <h2>Comenzar y detener la animación</h2>
@@ -459,28 +462,29 @@
 <section class="slide level2">
 
 <p>Con <code class="sourceCode javascript"><span class="fu">play</span>()</code> se ejecuta una animación:</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode js"><code class="sourceCode javascript"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co">// `this` es un `Sprite`en la misma escena</span></span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="co">// que se ha creado la animación</span></span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="kw">this</span><span class="op">.</span><span class="fu">play</span>(<span class="st">&#39;standing_mummy&#39;</span>)<span class="op">;</span></span></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode js"><code class="sourceCode javascript"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co">// `this` es un `Sprite` en la misma escena</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="co">// que se ha creado la animación</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="kw">this</span><span class="op">.</span><span class="fu">play</span>(<span class="st">&#39;standing_mummy&#39;</span>)<span class="op">;</span></span></code></pre></div>
+<p><small><code>play</code> puede usar un segundo parámetro para indicar si queremos que se ignore si la animación ya estaba activada</small></p>
 </section>
 <section class="slide level2">
 
 <p>Para parar una animación, con <code class="sourceCode javascript"><span class="fu">stop</span>()</code>:</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode js"><code class="sourceCode javascript"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co">// `this` es un `Sprite`en la misma escena</span></span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="co">// que se ha creado la animación</span></span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="kw">this</span><span class="op">.</span><span class="fu">stop</span>()<span class="op">;</span></span></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode js"><code class="sourceCode javascript"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co">// `this` es un `Sprite`en la misma escena</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="co">// que se ha creado la animación</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="kw">this</span><span class="op">.</span><span class="fu">stop</span>()<span class="op">;</span></span></code></pre></div>
 </section>
 <section id="eventos-en-animaciones" class="slide level2">
 <h2>Eventos en animaciones</h2>
 </section>
 <section class="slide level2">
 
-<p>Es posible hacer “callbacks” para ser informados de cuándo una animación se pone en marcha o se detiene:</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode js"><code class="sourceCode javascript"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co">// `this` es un `Sprite`en la misma escena</span></span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="co">// que se ha creado la animación</span></span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="kw">this</span><span class="op">.</span><span class="fu">on</span>(<span class="st">&#39;animationrepeat-standing_mummy&#39;</span><span class="op">,</span> () <span class="kw">=&gt;</span> {</span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>  <span class="co">// hacer algo</span></span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span></code></pre></div>
+<p>Es posible hacer “callbacks” para ser informados de cuándo una animación se pone en marcha o se detiene <a href="https://newdocs.phaser.io/docs/3.55.2/Phaser.Animations.Events">usando los eventos de animación</a>:</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode js"><code class="sourceCode javascript"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co">// `this` es un `Sprite`en la misma escena</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="co">// que se ha creado la animación</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="kw">this</span><span class="op">.</span><span class="fu">on</span>(<span class="st">&#39;animationrepeat-standing_mummy&#39;</span><span class="op">,</span> () <span class="kw">=&gt;</span> {</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>  <span class="co">// hacer algo</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span></code></pre></div>
 </section>
 <section id="más-cosas-con-animaciones-por-frames" class="slide level2">
 <h2>Más cosas con animaciones por frames</h2>
@@ -492,18 +496,18 @@
 <section class="slide level2">
 
 <p>Para cambiar las opciones de repetición, usamos <code class="sourceCode javascript"><span class="fu">play</span>()</code>, con otro parámetro:</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode js"><code class="sourceCode javascript"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>sprite<span class="op">.</span><span class="fu">play</span>(<span class="st">&#39;walk&#39;</span><span class="op">,</span> <span class="kw">true</span>)<span class="op">;</span> <span class="co">// *sí* repite</span></span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>sprite<span class="op">.</span><span class="fu">play</span>(<span class="st">&#39;walk&#39;</span><span class="op">,</span> <span class="kw">false</span>)<span class="op">;</span> <span class="co">// no repite</span></span></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode js"><code class="sourceCode javascript"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>sprite<span class="op">.</span><span class="fu">play</span>(<span class="st">&#39;walk&#39;</span><span class="op">,</span> <span class="kw">true</span>)<span class="op">;</span> <span class="co">// *sí* repite</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>sprite<span class="op">.</span><span class="fu">play</span>(<span class="st">&#39;walk&#39;</span><span class="op">,</span> <span class="kw">false</span>)<span class="op">;</span> <span class="co">// no repite</span></span></code></pre></div>
 </section>
 <section class="slide level2">
 
-<p>Cuando animamos una clase que hereda de <code class="sourceCode javascript">Sprite</code>, hay que llamar al <code class="sourceCode javascript"><span class="fu">preUpdate</span>(t<span class="op">,</span> d)</code> del padre (de <code class="sourceCode javascript">Sprite</code>) para que se produzca la animación:</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode js"><code class="sourceCode javascript"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> Player <span class="kw">extends</span> Phaser<span class="op">.</span><span class="at">GameObjects</span><span class="op">.</span><span class="at">Sprite</span> {</span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">preUpdate</span>(t<span class="op">,</span> d) {</span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>    <span class="kw">super</span><span class="op">.</span><span class="fu">preUpdate</span>(t<span class="op">,</span> d)</span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>    <span class="co">// ... resto de cosas</span></span>
-<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>  }</span>
-<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p>Cuando animamos una clase que hereda de <code class="sourceCode javascript">Sprite</code>, hay que llamar al <code class="sourceCode javascript"><span class="fu">preUpdate</span>(t<span class="op">,</span> dt)</code> del padre (de <code class="sourceCode javascript">Sprite</code>) para que se produzca la animación:</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode js"><code class="sourceCode javascript"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> Player <span class="kw">extends</span> Phaser<span class="op">.</span><span class="at">GameObjects</span><span class="op">.</span><span class="at">Sprite</span> {</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">preUpdate</span>(t<span class="op">,</span> dt) {</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>    <span class="kw">super</span><span class="op">.</span><span class="fu">preUpdate</span>(t<span class="op">,</span> dt)</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>    <span class="co">// ... resto de cosas</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
 </section></section>
 <section>
 <section id="atlas" class="title-slide slide level1">
@@ -526,39 +530,42 @@
 
 <p>Los atlas pueden ser de imágenes del mismo tamaño, o de tamaños diferentes</p>
 <p>Si son de tamaños diferentes, hay que adjuntar información sobre qué área de la textura corresponde a cada imagen</p>
+<p><a href="https://labs.phaser.io/assets/animations/seacreatures_json.png" class="uri">https://labs.phaser.io/assets/animations/seacreatures_json.png</a></p>
+<p><a href="https://labs.phaser.io/assets/animations/seacreatures_json.json" class="uri">https://labs.phaser.io/assets/animations/seacreatures_json.json</a></p>
 </section>
 <section class="slide level2">
 
-<p>Para cargar un atlas en Phaser, le damos un <em>identificador</em>, un <em>archivo</em> con la textura, y un <em>JSON</em> con la información de cómo está dividida la textura:</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode js"><code class="sourceCode javascript"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="kw">this</span><span class="op">.</span><span class="at">load</span><span class="op">.</span><span class="fu">atlas</span>(<span class="st">&#39;cosas&#39;</span><span class="op">,</span> <span class="st">&#39;cosas.png&#39;</span><span class="op">,</span> <span class="st">&#39;cosas.json&#39;</span>)<span class="op">;</span></span></code></pre></div>
+<p>Para cargar un atlas en Phaser, le damos un <em>identificador</em>, un <em>archivo</em> con la textura, y un <em>JSON</em> con la información de cómo está dividida la textura.</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode js"><code class="sourceCode javascript"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="kw">this</span><span class="op">.</span><span class="at">load</span><span class="op">.</span><span class="fu">atlas</span>(<span class="st">&#39;cosas&#39;</span><span class="op">,</span> <span class="st">&#39;cosas.png&#39;</span><span class="op">,</span> <span class="st">&#39;cosas.json&#39;</span>)<span class="op">;</span></span></code></pre></div>
 </section>
 <section class="slide level2">
 
 <p>Y, después, podemos usar ese atlas como cualquier <em>spritesheet</em>:</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode js"><code class="sourceCode javascript"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="kw">this</span><span class="op">.</span><span class="at">anims</span><span class="op">.</span><span class="fu">create</span>({</span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">key</span><span class="op">:</span> <span class="st">&#39;enemigo_andar&#39;</span><span class="op">,</span> </span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">frames</span><span class="op">:</span> </span>
-<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>     <span class="kw">this</span><span class="op">.</span><span class="at">anims</span><span class="op">.</span><span class="fu">generateFrameNames</span>(<span class="st">&#39;cosas&#39;</span><span class="op">,</span> {<span class="dt">prefix</span><span class="op">:</span><span class="st">&#39;prefijo_en_json&#39;</span>})<span class="op">,</span></span>
-<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>  <span class="dt">repeat</span><span class="op">:</span> <span class="op">-</span><span class="dv">1</span> })<span class="op">;</span></span>
-<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a><span class="kw">this</span><span class="op">.</span><span class="at">add</span><span class="op">.</span><span class="fu">sprite</span>(<span class="dv">400</span><span class="op">,</span> <span class="dv">300</span><span class="op">,</span> <span class="st">&#39;cosas&#39;</span>)<span class="op">;</span></span></code></pre></div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode js"><code class="sourceCode javascript"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="kw">this</span><span class="op">.</span><span class="at">anims</span><span class="op">.</span><span class="fu">create</span>({</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">key</span><span class="op">:</span> <span class="st">&#39;enemigo_andar&#39;</span><span class="op">,</span> </span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">frames</span><span class="op">:</span> </span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>     <span class="kw">this</span><span class="op">.</span><span class="at">anims</span><span class="op">.</span><span class="fu">generateFrameNames</span>(<span class="st">&#39;cosas&#39;</span><span class="op">,</span> {<span class="dt">prefix</span><span class="op">:</span><span class="st">&#39;prefijo_en_json&#39;</span>})<span class="op">,</span></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>  <span class="dt">repeat</span><span class="op">:</span> <span class="op">-</span><span class="dv">1</span> })<span class="op">;</span></span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a><span class="kw">this</span><span class="op">.</span><span class="at">add</span><span class="op">.</span><span class="fu">sprite</span>(<span class="dv">400</span><span class="op">,</span> <span class="dv">300</span><span class="op">,</span> <span class="st">&#39;cosas&#39;</span>)<span class="op">;</span></span></code></pre></div>
 </section>
 <section class="slide level2">
 
-<p>Hay una aplicación web que permite la creación de atlas para Phaser:</p>
+<p>Hay aplicaciones web que permiten la creación de atlas para Phaser:</p>
 <p><a href="https://gammafp.github.io/atlas-packer-phaser/" class="uri">https://gammafp.github.io/atlas-packer-phaser/</a></p>
+<p><a href="https://free-tex-packer.com/app/" class="uri">https://free-tex-packer.com/app/</a></p>
 </section>
 <section class="slide level2">
 
 <p>Es importante, al exportar el JSON, añadir el prefijo <code class="sourceCode javascript">prefijo_en_json</code>, que se puede sacar del JSON generado (en <code>filename</code>, y quitando los números):</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode js"><code class="sourceCode javascript"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="kw">this</span><span class="op">.</span><span class="at">anims</span><span class="op">.</span><span class="fu">generateFrameNames</span>(<span class="st">&#39;cosas&#39;</span><span class="op">,</span> {<span class="dt">prefix</span><span class="op">:</span><span class="st">&#39;prefijo_en_json&#39;</span>})<span class="op">,</span></span></code></pre></div>
+<div class="sourceCode" id="cb12"><pre class="sourceCode js"><code class="sourceCode javascript"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="kw">this</span><span class="op">.</span><span class="at">anims</span><span class="op">.</span><span class="fu">generateFrameNames</span>(<span class="st">&#39;cosas&#39;</span><span class="op">,</span> {<span class="dt">prefix</span><span class="op">:</span><span class="st">&#39;prefijo_en_json&#39;</span>})</span></code></pre></div>
 </section></section>
     </div>
   </div>
 
   <script src="../reveal.js/dist/reveal.js"></script>
 
-  // reveal.js plugins
+  <!-- reveal.js plugins -->
   <script src="../reveal.js/plugin/notes/notes.js"></script>
   <script src="../reveal.js/plugin/search/search.js"></script>
   <script src="../reveal.js/plugin/zoom/zoom.js"></script>
@@ -568,12 +575,145 @@
       // Full list of configuration options available at:
       // https://revealjs.com/config/
       Reveal.initialize({
+        // Display controls in the bottom right corner
+        controls: true,
+
+        // Help the user learn the controls by providing hints, for example by
+        // bouncing the down arrow when they first encounter a vertical slide
+        controlsTutorial: true,
+
+        // Determines where controls appear, "edges" or "bottom-right"
+        controlsLayout: 'bottom-right',
+
+        // Visibility rule for backwards navigation arrows; "faded", "hidden"
+        // or "visible"
+        controlsBackArrows: 'faded',
+
         // Display a presentation progress bar
         progress: true,
+
         // Display the page number of the current slide
         slideNumber: true,
+
+        // 'all', 'print', or 'speaker'
+        showSlideNumber: 'all',
+
+        // Add the current slide number to the URL hash so that reloading the
+        // page/copying the URL will return you to the same slide
+        hash: true,
+
+        // Start with 1 for the hash rather than 0
+        hashOneBasedIndex: false,
+
+        // Flags if we should monitor the hash and change slides accordingly
+        respondToHashChanges: true,
+
         // Push each slide change to the browser history
         history: true,
+
+        // Enable keyboard shortcuts for navigation
+        keyboard: true,
+
+        // Enable the slide overview mode
+        overview: true,
+
+        // Disables the default reveal.js slide layout (scaling and centering)
+        // so that you can use custom CSS layout
+        disableLayout: false,
+
+        // Vertical centering of slides
+        center: true,
+
+        // Enables touch navigation on devices with touch input
+        touch: true,
+
+        // Loop the presentation
+        loop: false,
+
+        // Change the presentation direction to be RTL
+        rtl: false,
+
+        // see https://revealjs.com/vertical-slides/#navigation-mode
+        navigationMode: 'default',
+
+        // Randomizes the order of slides each time the presentation loads
+        shuffle: false,
+
+        // Turns fragments on and off globally
+        fragments: true,
+
+        // Flags whether to include the current fragment in the URL,
+        // so that reloading brings you to the same fragment position
+        fragmentInURL: true,
+
+        // Flags if the presentation is running in an embedded mode,
+        // i.e. contained within a limited portion of the screen
+        embedded: false,
+
+        // Flags if we should show a help overlay when the questionmark
+        // key is pressed
+        help: true,
+
+        // Flags if it should be possible to pause the presentation (blackout)
+        pause: true,
+
+        // Flags if speaker notes should be visible to all viewers
+        showNotes: false,
+
+        // Global override for autoplaying embedded media (null/true/false)
+        autoPlayMedia: null,
+
+        // Global override for preloading lazy-loaded iframes (null/true/false)
+        preloadIframes: null,
+
+        // Number of milliseconds between automatically proceeding to the
+        // next slide, disabled when set to 0, this value can be overwritten
+        // by using a data-autoslide attribute on your slides
+        autoSlide: 0,
+
+        // Stop auto-sliding after user input
+        autoSlideStoppable: true,
+
+        // Use this method for navigation when auto-sliding
+        autoSlideMethod: null,
+
+        // Specify the average time in seconds that you think you will spend
+        // presenting each slide. This is used to show a pacing timer in the
+        // speaker view
+        defaultTiming: null,
+
+        // Enable slide navigation via mouse wheel
+        mouseWheel: false,
+
+        // The display mode that will be used to show slides
+        display: 'block',
+
+        // Hide cursor if inactive
+        hideInactiveCursor: true,
+
+        // Time before the cursor is hidden (in ms)
+        hideCursorTime: 5000,
+
+        // Opens links in an iframe preview overlay
+        previewLinks: false,
+
+        // Transition style (none/fade/slide/convex/concave/zoom)
+        transition: 'slide',
+
+        // Transition speed (default/fast/slow)
+        transitionSpeed: 'default',
+
+        // Transition style for full page slide backgrounds
+        // (none/fade/slide/convex/concave/zoom)
+        backgroundTransition: 'fade',
+
+        // Number of slides away from the current that are visible
+        viewDistance: 3,
+
+        // Number of slides away from the current that are visible on mobile
+        // devices. It is advisable to set this to a lower number than
+        // viewDistance in order to save resources.
+        mobileViewDistance: 2,
 
         // reveal.js plugins
         plugins: [

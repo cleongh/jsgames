@@ -25,7 +25,7 @@ title: Videojuegos en Internet
 ## WebAudio
 
 - Control total sobre la reproducción: panning, volumen, seek, loop, etc.
-- Formato dependiente del navegador: MP3, OGG, WAV…
+- Formato dependiente del navegador: MP3, OGG, WAV...
 - Audio posicional
 - Síntesis de audio
   - Osciladores, filtros. etc.
@@ -48,11 +48,11 @@ title: Videojuegos en Internet
 - ¡Scripting gratis!
 
 
-## ¡Pero yo quiero vender mi juego en un marketplace!
+<!-- ## ¡Pero yo quiero vender mi juego en un marketplace!
 
-- Hay wrappers para poder distribuir tu juego en Steam, App Store, Google Play…
+- Hay wrappers para poder distribuir tu juego en Steam, App Store, Google Play...
 - Permiten que tu juego HTML5 se distribuya como una aplicación nativa
-- Ejemplos: NW.js, Electron, CocoonJS...
+- Ejemplos: NW.js, Electron, CocoonJS... -->
 
 
 ## El futuro es WebAssembly
@@ -66,12 +66,17 @@ title: Videojuegos en Internet
 
 # Videojuegos comerciales
 
-
 ## Gods will be watching
 
 ![Gods Will Be Watching](godswillbewatching.png){width=70%}
 
 <small><http://www.deconstructeam.com/games/gods-will-be-watching-es/></small>
+
+## Dicey Dungeons (Terry Cavanagh){width=70%}
+
+![Dicey Dungeons](dicey-dungeons.png)
+
+<small><https://terrycavanaghgames.com/dice/9/html5/></small>
 
 
 ## Heroes of Paragon
@@ -90,7 +95,7 @@ title: Videojuegos en Internet
 
 ## Iron Maiden: Speed of Light
 
-<iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/-F7A24f6gNc" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+<iframe width="560" height="315" src="https://www.youtube.com/embed/yLuliCWjGXA" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
 <http://speedoflight.ironmaiden.com/>
 
@@ -117,6 +122,15 @@ title: Videojuegos en Internet
 [![Evil Glitch screenshot](evil_glitch.png)](http://js13kgames.com/games/evil-glitch/index.html)
 
 <http://js13kgames.com/games/evil-glitch/index.html>
+
+## Agar.io y Slither.io
+
+![Agar.io y Slither.io](slither-agar.png){width=70%}
+
+<small><https://www.agar.io/></small>
+
+<small><http://slither.io/></small>
+
 
 
 ## Helloenjoy's HelloRun
