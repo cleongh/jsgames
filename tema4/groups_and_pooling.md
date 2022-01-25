@@ -1,5 +1,5 @@
 ---
-title: Pooling con grupos de entidades
+title: Rendimiento, grupos y pooling
 ---
 
 
