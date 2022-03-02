@@ -469,11 +469,11 @@ Con `chain('clave')`{.js} se pueden *encadenar animaciones*, de forma que al ter
 
 ---
 
-Para cambiar las opciones de repetición, usamos `play()`{.js}, con otro parámetro:
+Para establecer si se reinicia la reproducción de la animación, usamos `play()`{.js}, con un booleano adicional:
 
 ```js
-sprite.play('walk', true); // *sí* repite
-sprite.play('walk', false); // no repite
+sprite.play('walk', true);
+sprite.play('walk', false);
 ```
 
 ---
@@ -513,9 +513,8 @@ Los atlas pueden ser de imágenes del mismo tamaño, o de tamaños diferentes
 
 Si son de tamaños diferentes, hay que adjuntar información sobre qué área de la textura corresponde a cada imagen
 
-<https://labs.phaser.io/assets/animations/seacreatures_json.png>
-
-<https://labs.phaser.io/assets/animations/seacreatures_json.json>
+- [PNG](https://labs.phaser.io/assets/animations/seacreatures_json.png)
+- [JSON](https://labs.phaser.io/assets/animations/seacreatures_json.json)
 
 
 ---
